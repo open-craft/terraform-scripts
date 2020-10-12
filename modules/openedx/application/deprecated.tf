@@ -149,6 +149,7 @@ locals {
     var.deprecated_memcached_cluster_id,
     lower(join("-", [var.client_shortname, "memcached", var.environment]))
   )
+
   redis_cluster_id = coalesce(
     var.deprecated_redis_cluster_id,
     lower(join("-", [var.client_shortname, "redis", var.environment]))

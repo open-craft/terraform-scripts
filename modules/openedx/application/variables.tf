@@ -51,6 +51,11 @@ variable "aws_vpc_id" {
   type        = string
 }
 
+variable "subnet_ids" {
+  description = "A list of subnet ids from the VPC"
+  type        = list(string)
+}
+
 // For now, the ACM Certificate must be created manually.
 // In the future we may wish to add Terraform code to create the Certificate.
 variable "aws_acm_certificate_domain" {
