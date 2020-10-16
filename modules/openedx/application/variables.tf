@@ -44,13 +44,14 @@ variable "environment" {
 
 ### AWS VPC Settings ######################################
 
-// For now, the VPC must be created manually (or use the default VPC).
-// In the future we may wish to add Terraform code to create the VPC.
+// The VPC is created automatically by code in the secret repo.
+// TODO: Port VPC creation code to application module.
 variable "aws_vpc_id" {
   description = "The ID of the AWS VPC that should contain all of the resources"
   type        = string
 }
 
+// Required in order to set up elasticache clusters inside a VPC.
 variable "subnet_ids" {
   description = "A list of subnet ids from the VPC"
   type        = list(string)

@@ -1,3 +1,11 @@
+/*
+Creates a subnet group to be used by elasticache clusters.
+
+Needed to properly create Memcached and Redis instances
+inside a VPC. This also allows select in which availability
+zones the cluster will be deployed in case a multi-AZ
+cluster is setup.
+*/
 resource "aws_elasticache_subnet_group" "elasticache_subnets" {
   name       = lower(join("-", [var.client_shortname, "elasticachesubnetgroup", var.environment]))
   subnet_ids = var.subnet_ids
