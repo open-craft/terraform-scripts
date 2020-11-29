@@ -1,0 +1,13 @@
+#! /bin/bash
+
+sudo apt-get update -y
+sudo apt-get install git python-pip python-dev build-essential libssl-dev libffi-dev
+sudo apt-get install libmysqlclient-dev mysql-client
+
+sudo add-apt-repository ppa:git-core/ppa -y
+sudo apt-get update -y
+sudo apt-get install git -y
+
+sudo pip install virtualenv virtualenvwrapper
+
+echo "system installation ready"
