@@ -76,13 +76,12 @@ variable "memcached_num_cache_nodes" {
   type        = number
 }
 
-### Memcached Optional Settings ###########################
-
-variable "memcached_parameter_group_name" {
-  description = "The parameter group name for the ElastiCache Memcached deployment"
+variable "memcached_engine_version" {
+  description = "The engine version for the ElastiCache Memcached deployment"
   type        = string
-  default     = "default.memcached1.5"
 }
+
+### Memcached Optional Settings ###########################
 
 variable "memcached_port" {
   description = "The port to use for the ElastiCache Memcached deployment"
