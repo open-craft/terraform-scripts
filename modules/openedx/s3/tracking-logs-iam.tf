@@ -13,7 +13,7 @@ data "aws_iam_policy_document" "edxapp_tracking_logs_s3_full_access" {
 }
 
 resource "aws_iam_policy" "edxapp_tracking_logs_s3_full_access" {
-  name        = "edxapp-tracking-logs-s3-full-access"
+  name        = lower(join("-", [var.client_shortname, "edxapp", var.environment, "tracking-logs-s3-full-access"]))
   description = "Grants full access to s3 resources in the ${aws_s3_bucket.edxapp_tracking_logs.id} bucket"
 
   policy = data.aws_iam_policy_document.edxapp_tracking_logs_s3_full_access.json
