@@ -7,10 +7,11 @@ data "aws_subnet_ids" "default" {
 }
 
 resource aws_db_instance mysql_rds {
+  count = var.with_read_replica ? 2 : 1
   identifier = "${var.customer_name}-${var.environment}-openedx"
   instance_class = var.instance_class
   engine = "mysql"
-  engine_version = "5.6.48"
+  engine_version = var.engine_version
 
   allocated_storage = var.allocated_storage
   storage_type = "gp2"
@@ -20,7 +21,8 @@ resource aws_db_instance mysql_rds {
   storage_encrypted = true
   kms_key_id = aws_kms_key.rds_encryption.arn
   auto_minor_version_upgrade = false
-  multi_az = false
+  multi_az = true
+  replicate_source_db = count.index != 0 ? aws_db_instance.mysql_rds.0.arn : null
 
   deletion_protection = true
 

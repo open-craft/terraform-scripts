@@ -12,12 +12,6 @@ data aws_acm_certificate "customer_subdomains_certificate_arn" {
   most_recent = true
 }
 
-data aws_acm_certificate "customer_main_domain_certificate_arn" {
-  domain = var.customer_domain
-  statuses = ["ISSUED"]
-  most_recent = true
-}
-
 resource aws_lb "edxapp_main_domain" {
   name = "${var.customer_name}-${var.environment}-edxapp-main-domain"
   load_balancer_type = "application"
@@ -58,7 +52,7 @@ resource aws_lb_listener "main_domain_https" {
   protocol = "HTTPS"
 
   ssl_policy = "ELBSecurityPolicy-2016-08"
-  certificate_arn = data.aws_acm_certificate.customer_main_domain_certificate_arn.arn
+  certificate_arn = data.aws_acm_certificate.customer_subdomains_certificate_arn.arn
 
 
   default_action {
