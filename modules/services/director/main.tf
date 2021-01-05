@@ -27,7 +27,7 @@ resource aws_instance director {
 }
 
 resource aws_security_group director {
-  name = "director"
+  name = "edx-director"
 }
 
 resource aws_security_group_rule director-outbound {
