@@ -12,6 +12,6 @@ variable "database_root_password" {}
 
 variable "edxapp_security_group_id" {}
 
-variable "with_read_replica" {
-  default = false
+variable "number_of_replicas" {
+  default = 0
 }
