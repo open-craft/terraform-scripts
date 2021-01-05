@@ -35,7 +35,7 @@ resource aws_db_instance mysql_rds {
 ## This is exactly the same as the master
 resource aws_db_instance mysql_rds_replicas {
   count = var.number_of_replicas
-  identifier = "${var.customer_name}-${var.environment}-openedx"
+  identifier = "${var.customer_name}-${var.environment}-openedx-replica-${count.index}"
   instance_class = var.instance_class
   engine = "mysql"
   engine_version = var.engine_version
