@@ -12,11 +12,11 @@ resource aws_elasticsearch_domain "openedx" {
 
   cluster_config {
     instance_count = 2
-    instance_type = "t2.small.elasticsearch"
+    instance_type = var.elasticsearch_instance_type
     zone_awareness_enabled = true
 
     dedicated_master_enabled = true
-    dedicated_master_type = "t2.small.elasticsearch"
+    dedicated_master_type = var.elasticsearch_instance_type
     dedicated_master_count = 3
 
     zone_awareness_config {
