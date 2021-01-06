@@ -41,16 +41,6 @@ resource aws_security_group_rule redis-inbound-rule {
   source_security_group_id = var.edxapp_security_group_id
 
   protocol = "all"
-  from_port = var.redis_port
-  to_port = var.redis_port
-}
-
-resource aws_security_group_rule memcached-inbound-rule {
-  type = "ingress"
-  security_group_id = aws_security_group.cache.id
-  source_security_group_id = var.edxapp_security_group_id
-
-  protocol = "all"
-  from_port = var.memcached_port
-  to_port = var.memcached_port
+  from_port = 0
+  to_port = 0
 }
