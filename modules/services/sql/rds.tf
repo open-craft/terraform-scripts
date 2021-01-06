@@ -37,10 +37,8 @@ resource aws_db_instance mysql_rds_replicas {
   count = var.number_of_replicas
   identifier = "${var.customer_name}-${var.environment}-openedx-replica-${count.index}"
   instance_class = var.instance_class
-  engine = "mysql"
   engine_version = var.engine_version
 
-  allocated_storage = var.allocated_storage
   storage_type = "gp2"
   backup_retention_period = 14
 
@@ -52,9 +50,7 @@ resource aws_db_instance mysql_rds_replicas {
   replicate_source_db = aws_db_instance.mysql_rds.arn
 
   deletion_protection = true
-
-  username = var.database_root_username
-  password = var.database_root_password
+  skip_final_snapshot = false
 
   db_subnet_group_name = aws_db_subnet_group.primary.name
   vpc_security_group_ids = [aws_security_group.rds.id]
