@@ -15,3 +15,7 @@ variable "edxapp_security_group_id" {}
 variable "number_of_replicas" {
   default = 0
 }
+
+variable "enable_multi_az" {
+  default = false
+}

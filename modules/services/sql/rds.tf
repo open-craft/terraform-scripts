@@ -20,7 +20,7 @@ resource aws_db_instance mysql_rds {
   storage_encrypted = true
   kms_key_id = aws_kms_key.rds_encryption.arn
   auto_minor_version_upgrade = false
-  multi_az = true
+  multi_az = var.enable_multi_az
 
   deletion_protection = true
 
@@ -46,7 +46,7 @@ resource aws_db_instance mysql_rds_replicas {
   storage_encrypted = true
   kms_key_id = aws_kms_key.rds_encryption.arn
   auto_minor_version_upgrade = false
-  multi_az = true
+  multi_az = var.enable_multi_az
   replicate_source_db = aws_db_instance.mysql_rds.identifier
 
   skip_final_snapshot = true

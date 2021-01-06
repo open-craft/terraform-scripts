@@ -3,20 +3,10 @@ data aws_route53_zone "route53_zone" {
   private_zone = false
 }
 
-locals {
-  subdomains = [
-    "www",
-    "preview",
-    "studio",
-    "ecommerce",
-    "discovery",
-  ]
-}
-
 resource aws_route53_record "subdomain_lb_record" {
-  count = length(local.subdomains)
+  count = length(var.route53_subdomains)
   zone_id = data.aws_route53_zone.route53_zone.zone_id
-  name = "${local.subdomains[count.index]}.${data.aws_route53_zone.route53_zone.name}"
+  name = "${var.route53_subdomains[count.index]}.${data.aws_route53_zone.route53_zone.name}"
   type = "A"
 
   alias {
