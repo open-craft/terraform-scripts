@@ -33,7 +33,7 @@ resource aws_route53_record "main_domain_lb_record" {
 
   alias {
     evaluate_target_health = false
-    name = aws_lb.edxapp_main_domain.dns_name
-    zone_id = aws_lb.edxapp_main_domain.zone_id
+    name = aws_lb.edxapp.dns_name
+    zone_id = aws_lb.edxapp.zone_id
   }
 }
