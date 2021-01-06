@@ -47,9 +47,8 @@ resource aws_db_instance mysql_rds_replicas {
   kms_key_id = aws_kms_key.rds_encryption.arn
   auto_minor_version_upgrade = false
   multi_az = true
-  replicate_source_db = aws_db_instance.mysql_rds.arn
+  replicate_source_db = aws_db_instance.mysql_rds.identifier
 
-  deletion_protection = true
   skip_final_snapshot = true
 
   db_subnet_group_name = aws_db_subnet_group.primary.name
