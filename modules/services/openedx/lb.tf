@@ -12,56 +12,6 @@ data aws_acm_certificate "customer_subdomains_certificate_arn" {
   most_recent = true
 }
 
-resource aws_lb "edxapp_main_domain" {
-  name = "${var.customer_name}-${var.environment}-edxapp-main-domain"
-  load_balancer_type = "application"
-  subnets = data.aws_subnet_ids.default.ids
-  security_groups = [aws_security_group.lb.id]
-}
-
-resource aws_lb_target_group "edxapp_main_domain" {
-  port = 80
-  protocol = "HTTP"
-  vpc_id = data.aws_vpc.default.id
-
-  health_check {
-    path = "/"
-    protocol = "HTTP"
-    matcher = "200"
-    interval = 15
-    timeout = 3
-    healthy_threshold = 2
-    unhealthy_threshold = 2
-  }
-}
-
-resource aws_lb_listener "main_domain_http" {
-  load_balancer_arn = aws_lb.edxapp_main_domain.arn
-  port = local.http_port
-  protocol = "HTTP"
-
-  default_action {
-    type = "forward"
-    target_group_arn = aws_lb_target_group.edxapp_main_domain.arn
-  }
-}
-
-resource aws_lb_listener "main_domain_https" {
-  load_balancer_arn = aws_lb.edxapp_main_domain.arn
-  port = local.https_port
-  protocol = "HTTPS"
-
-  ssl_policy = "ELBSecurityPolicy-2016-08"
-  certificate_arn = data.aws_acm_certificate.customer_subdomains_certificate_arn.arn
-
-
-  default_action {
-    type = "forward"
-    target_group_arn = aws_lb_target_group.edxapp_main_domain.arn
-  }
-}
-
-####################################################################################################
 resource aws_lb edxapp {
   name = "${var.customer_name}-${var.environment}-edxapp"
   load_balancer_type = "application"
