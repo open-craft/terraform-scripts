@@ -50,7 +50,7 @@ resource aws_db_instance mysql_rds_replicas {
   replicate_source_db = aws_db_instance.mysql_rds.arn
 
   deletion_protection = true
-  skip_final_snapshot = false
+  skip_final_snapshot = true
 
   db_subnet_group_name = aws_db_subnet_group.primary.name
   vpc_security_group_ids = [aws_security_group.rds.id]
