@@ -40,13 +40,12 @@ resource aws_db_instance mysql_rds_replicas {
   engine_version = var.engine_version
 
   storage_type = "gp2"
-  backup_retention_period = 14
 
   publicly_accessible = false
   storage_encrypted = true
   kms_key_id = aws_kms_key.rds_encryption.arn
   auto_minor_version_upgrade = false
-  multi_az = var.enable_multi_az
+  multi_az = var.enable_replica_multi_az
   replicate_source_db = aws_db_instance.mysql_rds.identifier
 
   skip_final_snapshot = true

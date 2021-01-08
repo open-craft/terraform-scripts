@@ -1,5 +1,9 @@
 resource aws_route53_zone "primary" {
   name = var.customer_domain
+
+  lifecycle {
+    prevent_destroy = var.prevent_route53_destruction
+  }
 }
 
 resource aws_acm_certificate "main_domain_certificate" {

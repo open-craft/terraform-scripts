@@ -17,7 +17,7 @@ resource aws_elasticsearch_domain "openedx" {
 
     dedicated_master_enabled = true
     dedicated_master_type = var.elasticsearch_instance_type
-    dedicated_master_count = 3
+    dedicated_master_count = var.number_of_nodes
 
     zone_awareness_config {
       availability_zone_count = 2

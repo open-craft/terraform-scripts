@@ -1,8 +1,8 @@
 resource aws_elasticache_cluster redis {
-  cluster_id = var.redis_cluster_id
+  cluster_id = "edx-${var.customer_name}-${var.environment}-redis-cluster"
   engine = "redis"
   node_type = var.redis_node_type
-  num_cache_nodes = var.redis_num_cache_nodes
+  num_cache_nodes = 1   # redis doesn't support multiple nodes
   parameter_group_name = var.redis_parameter_group_name
 
   security_group_ids = [aws_security_group.cache.id]
@@ -10,7 +10,7 @@ resource aws_elasticache_cluster redis {
 }
 
 resource aws_elasticache_cluster memcached {
-  cluster_id = var.memcached_cluster_id
+  cluster_id = "edx-${var.customer_name}-${var.environment}-memcached-cluster"
   engine = "memcached"
   node_type = var.memcached_node_type
   num_cache_nodes = var.memcached_num_cache_nodes

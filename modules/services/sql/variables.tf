@@ -19,3 +19,7 @@ variable "number_of_replicas" {
 variable "enable_multi_az" {
   default = false
 }
+
+variable "enable_replica_multi_az" {
+  default = false
+}
