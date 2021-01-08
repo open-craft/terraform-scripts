@@ -2,7 +2,7 @@ resource aws_route53_zone "primary" {
   name = var.customer_domain
 
   lifecycle {
-    prevent_destroy = var.prevent_route53_destruction
+    prevent_destroy = true
   }
 }
 
