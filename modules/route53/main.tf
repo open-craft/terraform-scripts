@@ -3,6 +3,8 @@ resource aws_route53_zone "primary" {
 }
 
 resource aws_acm_certificate "main_domain_certificate" {
+  count = var.enable_acm_validation ? 1 : 0
+
   domain_name = "*.${var.customer_domain}"
   validation_method = "DNS"
   subject_alternative_names = [var.customer_domain]
@@ -28,6 +30,8 @@ resource aws_route53_record "main_domain_validation_records" {
 }
 
 resource "aws_acm_certificate_validation" "main_domain_validation" {
+  count = var.enable_acm_validation ? 1 : 0
+
   certificate_arn = aws_acm_certificate.main_domain_certificate.arn
   validation_record_fqdns = [for record in aws_route53_record.main_domain_validation_records : record.fqdn]
 }
