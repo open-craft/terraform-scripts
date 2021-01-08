@@ -12,7 +12,7 @@ resource aws_acm_certificate "main_domain_certificate" {
 
 resource aws_route53_record "main_domain_validation_records" {
   for_each = {
-    for dvo in aws_acm_certificate.main_domain_certificate.domain_validation_options : dvo.domain_name => {
+    for dvo in (var.enable_acm_validation ? aws_acm_certificate.main_domain_certificate.domain_validation_options : []) : dvo.domain_name => {
       name = dvo.resource_record_name
       record = dvo.resource_record_value
       type = dvo.resource_record_type
