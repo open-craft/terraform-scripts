@@ -6,6 +6,9 @@ data "aws_subnet_ids" "default" {
   vpc_id = data.aws_vpc.default.id
 }
 
+data "aws_region" "current" {}
+data "aws_caller_identity" "current" {}
+
 resource aws_elasticsearch_domain "openedx" {
   domain_name = "${var.customer_name}-${var.environment}-elasticsearch"
   elasticsearch_version = "1.5"
@@ -37,6 +40,22 @@ resource aws_elasticsearch_domain "openedx" {
     volume_type = "gp2"
     volume_size = 10
   }
+
+  access_policies = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "*"
+      },
+      "Action": "es:*",
+      "Resource": "arn:aws:es:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:domain/${var.customer_name}-${var.environment}-elasticsearch/*"
+    }
+  ]
+}
+POLICY
 
   depends_on = [aws_iam_service_linked_role.elasticsearch]
 }
