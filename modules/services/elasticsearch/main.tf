@@ -6,18 +6,21 @@ data "aws_subnet_ids" "default" {
   vpc_id = data.aws_vpc.default.id
 }
 
+data "aws_region" "current" {}
+data "aws_caller_identity" "current" {}
+
 resource aws_elasticsearch_domain "openedx" {
   domain_name = "${var.customer_name}-${var.environment}-elasticsearch"
   elasticsearch_version = "1.5"
 
   cluster_config {
     instance_count = 2
-    instance_type = "t2.small.elasticsearch"
+    instance_type = var.elasticsearch_instance_type
     zone_awareness_enabled = true
 
     dedicated_master_enabled = true
-    dedicated_master_type = "t2.small.elasticsearch"
-    dedicated_master_count = 3
+    dedicated_master_type = var.elasticsearch_instance_type
+    dedicated_master_count = var.number_of_nodes
 
     zone_awareness_config {
       availability_zone_count = 2
@@ -37,6 +40,22 @@ resource aws_elasticsearch_domain "openedx" {
     volume_type = "gp2"
     volume_size = 10
   }
+
+  access_policies = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "*"
+      },
+      "Action": "es:*",
+      "Resource": "arn:aws:es:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:domain/${var.customer_name}-${var.environment}-elasticsearch/*"
+    }
+  ]
+}
+POLICY
 
   depends_on = [aws_iam_service_linked_role.elasticsearch]
 }

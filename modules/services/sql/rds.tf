@@ -10,7 +10,7 @@ resource aws_db_instance mysql_rds {
   identifier = "${var.customer_name}-${var.environment}-openedx"
   instance_class = var.instance_class
   engine = "mysql"
-  engine_version = "5.6.48"
+  engine_version = var.engine_version
 
   allocated_storage = var.allocated_storage
   storage_type = "gp2"
@@ -20,12 +20,35 @@ resource aws_db_instance mysql_rds {
   storage_encrypted = true
   kms_key_id = aws_kms_key.rds_encryption.arn
   auto_minor_version_upgrade = false
-  multi_az = false
+  multi_az = var.enable_multi_az
 
   deletion_protection = true
 
   username = var.database_root_username
   password = var.database_root_password
+
+  db_subnet_group_name = aws_db_subnet_group.primary.name
+  vpc_security_group_ids = [aws_security_group.rds.id]
+}
+
+
+## This is exactly the same as the master
+resource aws_db_instance mysql_rds_replicas {
+  count = var.number_of_replicas
+  identifier = "${var.customer_name}-${var.environment}-openedx-replica-${count.index}"
+  instance_class = var.instance_class
+  engine_version = var.engine_version
+
+  storage_type = "gp2"
+
+  publicly_accessible = false
+  storage_encrypted = true
+  kms_key_id = aws_kms_key.rds_encryption.arn
+  auto_minor_version_upgrade = false
+  multi_az = var.enable_replica_multi_az
+  replicate_source_db = aws_db_instance.mysql_rds.identifier
+
+  skip_final_snapshot = true
 
   db_subnet_group_name = aws_db_subnet_group.primary.name
   vpc_security_group_ids = [aws_security_group.rds.id]

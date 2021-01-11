@@ -3,20 +3,10 @@ data aws_route53_zone "route53_zone" {
   private_zone = false
 }
 
-locals {
-  subdomains = [
-    "www",
-    "preview",
-    "studio",
-    "ecommerce",
-    "discovery",
-  ]
-}
-
 resource aws_route53_record "subdomain_lb_record" {
-  count = length(local.subdomains)
+  count = length(var.route53_subdomains)
   zone_id = data.aws_route53_zone.route53_zone.zone_id
-  name = "${local.subdomains[count.index]}.${data.aws_route53_zone.route53_zone.name}"
+  name = "${var.route53_subdomains[count.index]}.${data.aws_route53_zone.route53_zone.name}"
   type = "A"
 
   alias {
@@ -33,7 +23,7 @@ resource aws_route53_record "main_domain_lb_record" {
 
   alias {
     evaluate_target_health = false
-    name = aws_lb.edxapp_main_domain.dns_name
-    zone_id = aws_lb.edxapp_main_domain.zone_id
+    name = aws_lb.edxapp.dns_name
+    zone_id = aws_lb.edxapp.zone_id
   }
 }

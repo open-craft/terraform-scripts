@@ -11,7 +11,7 @@ resource aws_instance director {
   key_name = var.director_key_pair_name
 
   tags = {
-    Name = "director"
+    Name = "edx-${var.environment}-director"
   }
 
   connection {
@@ -27,7 +27,7 @@ resource aws_instance director {
 }
 
 resource aws_security_group director {
-  name = "director"
+  name = var.custom_security_group_name == "" ? "edx-${var.environment}-director" : var.custom_security_group_name
 }
 
 resource aws_security_group_rule director-outbound {
