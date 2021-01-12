@@ -90,8 +90,6 @@ variable "memcached_parameter_group_name" {
   default     = "default.memcached1.5"
 }
 
-### Memcached Optional Settings ###########################
-
 variable "memcached_port" {
   description = "The port to use for the ElastiCache Memcached deployment"
   type        = number
