@@ -76,9 +76,18 @@ variable "memcached_num_cache_nodes" {
   type        = number
 }
 
+### Memcached Optional Settings ###########################
+
 variable "memcached_engine_version" {
   description = "The engine version for the ElastiCache Memcached deployment"
   type        = string
+  default     = "1.5.16"
+}
+
+variable "memcached_parameter_group_name" {
+  description = "The parameter group name for the ElastiCache Memcached deployment"
+  type        = string
+  default     = "default.memcached1.5"
 }
 
 ### Memcached Optional Settings ###########################
