@@ -31,6 +31,19 @@ resource aws_route53_record "main_domain_validation_records" {
   ]
 }
 
+resource aws_route53_record "main_domain_extra_records" {
+  for_each = var.customer_domain_extra_records
+
+  allow_overwrite = true
+  zone_id = aws_route53_zone.primary.zone_id
+  name = each.key
+  type = each.value.type
+  ttl = each.value.ttl
+  records = [
+    each.value.value
+  ]
+}
+
 resource "aws_acm_certificate_validation" "main_domain_validation" {
   count = var.enable_acm_validation ? 1 : 0
 
