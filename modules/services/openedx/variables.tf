@@ -14,3 +14,8 @@ variable "route53_subdomains" {
     "discovery",
   ]
 }
+
+variable enable_https {
+  description = "Cannot enable HTTPS until there is a valid customer_domain certificate"
+  default = true
+}
