@@ -8,9 +8,11 @@ Very simple placeholder, to initialize Route53 to be used by other modules (emai
 - The user will have to configure its DNS provider to point NS records to the provided nameservers
 
 ## Input
-It only needs one variable:
 
-- `customer_domain`: domain or subdomain provided by a customer that delegates to Route53
+- `customer_domain`: (required) domain or subdomain provided by a customer that delegates to Route53
+- `customer_domain_extra_records`: (optional) map objects specifying additional DNS records to add to the customer domain zone.
+   Map key becomes the record `name`, and the record `value`, `type`, `ttl` are pulled from the object.
+- `enable_acm_validation`: (optional, default true) Set to false if the DNS records won't validate (yet).
 
 ## Output
 
