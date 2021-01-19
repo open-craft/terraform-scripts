@@ -27,6 +27,14 @@ variable "environment" {
   type        = string
 }
 
+### Course Discovery Settings ###############################
+
+variable "enable_course_discovery" {
+  description = "Switch which enables/disables the creation of bucket for course discovery IDA"
+  type        = bool
+  default     = false
+}
+
 ### DEPRECATED ############################################
 #   DO NOT USE THESE VARIABLES WITH NEW INFRASTRUCTURE
 
