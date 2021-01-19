@@ -7,7 +7,7 @@ variable "engine_version" {
 }
 variable "allocated_storage" {}
 variable "max_allocated_storage" {
-  default = 100
+  default = 100   # this also enables autoscaling, set to 0 to disable
 }
 
 variable "database_root_username" {}
