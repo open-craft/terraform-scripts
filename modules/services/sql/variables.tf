@@ -6,6 +6,9 @@ variable "engine_version" {
   default = "5.6.48"
 }
 variable "allocated_storage" {}
+variable "max_allocated_storage" {
+  default = 100
+}
 
 variable "database_root_username" {}
 variable "database_root_password" {}

@@ -13,6 +13,7 @@ AWS Security Group
 `EDXAPP_MYSQL_USER` variable
 - `database_root_password`: Root password. To be set in the `EDXAPP_MYSQL_PASSWORD` variable
 - `edxapp_security_group_id`: Security Group ID of the edX instance
+- `max_allocated_storage`: Default to 100, this also enables autoscaling, set it to 0 to disable
 
 ## Output
 
