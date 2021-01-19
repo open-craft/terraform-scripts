@@ -7,3 +7,6 @@ variable "elasticsearch_instance_type" {
 variable "number_of_nodes" {
   default = 3
 }
+variable "create_iam_service_linked_role" {
+  default = true
+}

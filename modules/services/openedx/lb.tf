@@ -8,7 +8,7 @@ data aws_subnet_ids "default" {
 
 data aws_acm_certificate "customer_subdomains_certificate_arn" {
   domain = "*.${var.customer_domain}"
-  statuses = ["ISSUED"]
+  statuses = ["ISSUED", "PENDING_VALIDATION"]
   most_recent = true
 }
 
@@ -35,18 +35,8 @@ resource aws_lb_target_group edxapp {
   }
 }
 
-resource aws_lb_listener http {
-  load_balancer_arn = aws_lb.edxapp.arn
-  port = local.http_port
-  protocol = "HTTP"
-
-  default_action {
-    type = "forward"
-    target_group_arn = aws_lb_target_group.edxapp.arn
-  }
-}
-
 resource aws_lb_listener "https" {
+  count = var.enable_https ? 1 : 0
   load_balancer_arn = aws_lb.edxapp.arn
   port = local.https_port
   protocol = "HTTPS"
@@ -54,6 +44,35 @@ resource aws_lb_listener "https" {
   ssl_policy = "ELBSecurityPolicy-2016-08"
   certificate_arn = data.aws_acm_certificate.customer_subdomains_certificate_arn.arn
 
+
+  default_action {
+    type = "forward"
+    target_group_arn = aws_lb_target_group.edxapp.arn
+  }
+}
+
+resource aws_lb_listener redirect_http_to_https {
+  count = var.enable_https ? 1 : 0
+  load_balancer_arn = aws_lb.edxapp.arn
+  port = local.http_port
+  protocol = "HTTP"
+
+  default_action {
+    type = "redirect"
+
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
+  }
+}
+
+resource aws_lb_listener http {
+  count = var.enable_https ? 0 : 1
+  load_balancer_arn = aws_lb.edxapp.arn
+  port = local.http_port
+  protocol = "HTTP"
 
   default_action {
     type = "forward"

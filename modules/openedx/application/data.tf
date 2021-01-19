@@ -4,7 +4,7 @@ data "aws_subnet_ids" "subnets" {
 
 data "aws_acm_certificate" "certificate" {
   domain      = var.aws_acm_certificate_domain
-  statuses    = ["ISSUED"]
+  statuses    = ["ISSUED", "PENDING_VALIDATION"]
   most_recent = true
 }
 
