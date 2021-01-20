@@ -52,9 +52,6 @@ resource aws_db_instance mysql_rds_replicas {
 
   skip_final_snapshot = true
 
-  db_subnet_group_name = aws_db_subnet_group.primary.name
-  vpc_security_group_ids = [aws_security_group.rds.id]
-
   max_allocated_storage = var.max_allocated_storage
 }
 
