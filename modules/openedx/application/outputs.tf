@@ -37,7 +37,3 @@ output "rds" {
 output "redis" {
   value = aws_elasticache_cluster.redis
 }
-
-output "edxapp_course_discovery_s3_access_key" {
-  value = var.enable_course_discovery ? module.s3.edxapp_course_discovery_s3_access_key : null
-}
