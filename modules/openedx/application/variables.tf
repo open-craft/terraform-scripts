@@ -285,3 +285,11 @@ variable "redis_snapshot_retention_limit" {
   type        = number
   default     = 1
 }
+
+### Course Discovery Settings ###############################
+
+variable "enable_course_discovery" {
+  description = "Switch which enables/disables the creation of bucket for course discovery IDA"
+  type        = bool
+  default     = false
+}
