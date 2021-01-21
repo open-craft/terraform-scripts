@@ -75,3 +75,6 @@ respective security groups and listeneres
 - `customer_name`
 - `environment`
 - `director_security_group_id`: The director's security group ID (check the `director` module)
+- `route53_subdomains`: Subdomains to add as route53 records pointing to the Load Balancer
+- `lb_idle_timeout`: Load Balancer idle timeout
+- `enable_https`: If your ACM is not issued just yet or you don't need https, set this to `false`  

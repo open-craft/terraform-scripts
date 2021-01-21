@@ -17,6 +17,8 @@ resource aws_lb edxapp {
   load_balancer_type = "application"
   subnets = data.aws_subnet_ids.default.ids
   security_groups = [aws_security_group.lb.id]
+
+  idle_timeout = var.lb_idle_timeout
 }
 
 resource aws_lb_target_group edxapp {

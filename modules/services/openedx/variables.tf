@@ -15,6 +15,10 @@ variable "route53_subdomains" {
   ]
 }
 
+variable "lb_idle_timeout" {
+  default = 60
+}
+
 variable enable_https {
   description = "Cannot enable HTTPS until there is a valid customer_domain certificate"
   default = true
