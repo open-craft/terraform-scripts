@@ -22,6 +22,10 @@ output "edxapp_tracking_logs_s3_user_access_key" {
   value = module.s3.edxapp_tracking_logs_s3_user_access_key
 }
 
+output "edxapp_course_discovery_s3_access_key" {
+  value = module.s3.edxapp_course_discovery_s3_access_key
+}
+
 output "load_balancer" {
   value = aws_lb.application
 }
