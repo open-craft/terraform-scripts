@@ -26,3 +26,7 @@ variable "enable_multi_az" {
 variable "enable_replica_multi_az" {
   default = false
 }
+
+variable "extra_security_group_ids" {
+  default = []
+}
