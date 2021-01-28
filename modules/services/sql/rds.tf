@@ -28,7 +28,7 @@ resource aws_db_instance mysql_rds {
   password = var.database_root_password
 
   db_subnet_group_name = aws_db_subnet_group.primary.name
-  vpc_security_group_ids = concat([aws_security_group.rds.id], var.extra_security_group_ids)
+  vpc_security_group_ids = [aws_security_group.rds.id]
 
   max_allocated_storage = var.max_allocated_storage
 }
@@ -43,12 +43,13 @@ resource aws_db_instance mysql_rds_replicas {
 
   storage_type = "gp2"
 
-  publicly_accessible = false
+  publicly_accessible = var.replica_publicly_accessible
   storage_encrypted = true
   kms_key_id = aws_kms_key.rds_encryption.arn
   auto_minor_version_upgrade = false
   multi_az = var.enable_replica_multi_az
   replicate_source_db = aws_db_instance.mysql_rds.identifier
+  vpc_security_group_ids = [var.replica_extra_security_group_ids]
 
   skip_final_snapshot = true
 
