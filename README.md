@@ -142,6 +142,7 @@ For a simple AWS OpenedX provisioning, you could reuse these modules on the foll
         target_id = aws_instance.edxapp.id
         port = 80
       }
+      
 
 For more information on how to deploy an OpenedX instance with Terraform, please go
-to our internal [AWS terraform deployment tutorial](https://gitlab.com/opencraft/documentation/public/-/blob/master/howtos/aws/AWS_terraform_deployment_tutorial.md)
+to our internal [AWS terraform deployment tutorial](https://gitlab.com/opencraft/documentation/public/-/blob/master/tutorials/howtos/aws/AWS_terraform_deployment_tutorial.md)
