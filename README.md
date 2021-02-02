@@ -144,4 +144,4 @@ For a simple AWS OpenedX provisioning, you could reuse these modules on the foll
       }
 
 For more information on how to deploy an OpenedX instance with Terraform, please go
-to our internal [AWS terraform deployment tutorial](https://gitlab.com/opencraft/documentation/private/-/blob/master/howtos/aws/AWS_terraform_deployment_tutorial.md)
+to our internal [AWS terraform deployment tutorial](https://gitlab.com/opencraft/documentation/public/-/blob/master/howtos/aws/AWS_terraform_deployment_tutorial.md)
