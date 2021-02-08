@@ -43,7 +43,7 @@ resource aws_lb_listener "https" {
   port = local.https_port
   protocol = "HTTPS"
 
-  ssl_policy = "ELBSecurityPolicy-2016-08"
+  ssl_policy = var.lb_ssl_security_policy
   certificate_arn = data.aws_acm_certificate.customer_subdomains_certificate_arn.arn
 
 
