@@ -155,3 +155,66 @@ resource aws_security_group_rule lb-outbound {
   protocol = local.any_protocol
   cidr_blocks = local.all_ips
 }
+
+// The following security negotiation policies are added to the list of
+// predefined policies that may be used by listeners attached to the load
+// balancer. To use one of these for your edxapp, set
+// `var.lb_ssl_security_policy` to its name.
+
+resource aws_lb_ssl_negotiation_policy edxapp-tls-1-2-no-cbc {
+
+  name          = "edXappSecurityPolicy-TLS-1-2-No-CBC"
+
+  load_balancer = aws_lb.edxapp.name
+
+  lb_port       = 443
+
+  // Only allow TLSv1.2 and above
+
+  attribute {
+    name  = "Protocol-TLSv1"
+    value = "false"
+  }
+
+  attribute {
+    name  = "Protocol-TLSv1.1"
+    value = "false"
+  }
+
+  attribute {
+    name  = "Protocol-TLSv1.2"
+    value = "true"
+  }
+
+  // exclude weak CBC policies
+
+  attribute {
+    name  = "ECDHE-RSA-AES256-GCM-SHA384"
+    value = "true"
+  }
+
+  attribute {
+    name  = "ECDHE-RSA-AES128-GCM-SHA256"
+    value = "true"
+  }
+
+  attribute {
+    name  = "DHE-RSA-AES256-GCM-SHA384"
+    value = "true"
+  }
+
+  attribute {
+    name  = "DHE-RSA-AES128-GCM-SHA256"
+    value = "true"
+  }
+
+  attribute {
+    name  = "AES256-GCM-SHA256"
+    value = "true"
+  }
+
+  attribute {
+    name  = "AES128-GCM-SHA256"
+    value = "true"
+  }
+}
