@@ -165,7 +165,7 @@ resource aws_lb_ssl_negotiation_policy edxapp-tls-1-2-no-cbc {
 
   name          = "edXappSecurityPolicy-TLS-1-2-No-CBC"
 
-  load_balancer = aws_lb.edxapp.name
+  load_balancer = aws_lb.edxapp.id
 
   lb_port       = 443
 
