@@ -156,6 +156,11 @@ resource aws_security_group_rule lb-outbound {
   cidr_blocks = local.all_ips
 }
 
+// XXX: This does not work since our load balancer type is "application" and
+// those do not allow custom policies. This might work if we changed to
+// "network" but that would need testing. Will definitely work with an "elastic"
+// load balancer. Both options require a large reorganization of our modules.
+
 // The following security negotiation policies are added to the list of
 // predefined policies that may be used by listeners attached to the load
 // balancer. To use one of these for your edxapp, set
