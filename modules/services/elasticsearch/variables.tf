@@ -25,3 +25,7 @@ variable "dedicated_master_enabled" {
 variable "instance_count" {
   default = 2
 }
+
+variable "number_of_subnets" {
+  default = 2
+}
