@@ -28,7 +28,7 @@ resource aws_elasticsearch_domain "openedx" {
   }
 
   vpc_options {
-    subnet_ids = slice(tolist(data.aws_subnet_ids.default.ids), 0, var.number_of_subnets)
+    subnet_ids = slice(tolist(data.aws_subnet_ids.default.ids), var.start_number_of_subnets, var.number_of_subnets)
     security_group_ids = [aws_security_group.elasticsearch.id]
   }
 

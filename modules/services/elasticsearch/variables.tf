@@ -29,3 +29,7 @@ variable "instance_count" {
 variable "number_of_subnets" {
   default = 2
 }
+
+variable "start_number_of_subnets" {
+  default = 0
+}
