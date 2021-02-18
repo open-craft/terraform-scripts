@@ -14,16 +14,16 @@ resource aws_elasticsearch_domain "openedx" {
   elasticsearch_version = "1.5"
 
   cluster_config {
-    instance_count = 2
+    instance_count = var.instance_count
     instance_type = var.elasticsearch_instance_type
-    zone_awareness_enabled = true
+    zone_awareness_enabled = var.zone_awareness_enabled
 
-    dedicated_master_enabled = true
+    dedicated_master_enabled = var.dedicated_master_enabled
     dedicated_master_type = var.elasticsearch_instance_type
     dedicated_master_count = var.number_of_nodes
 
     zone_awareness_config {
-      availability_zone_count = 2
+      availability_zone_count = var.availability_zone_count
     }
   }
 
