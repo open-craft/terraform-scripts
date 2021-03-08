@@ -27,3 +27,7 @@ https://github.com/open-craft/openedx-deployment/blob/master/docs/analytics/AWS_
 - `edxapp_s3_grade_bucket_id`: bucket ID of the `grades` bucket used for the edX instance
 - `edxapp_s3_grade_bucket_arn`: same as before, but the ARN
 - `edxapp_s3_grade_user_arn`: User ARN that's used to read from the `grades` bucket
+
+## Output
+
+- `analytics_security_group_id`: Security Group ID used by the Analytics instance
