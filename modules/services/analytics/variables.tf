@@ -3,22 +3,10 @@ variable "environment" {}
 variable "analytics_image_id" {}
 variable "analytics_instance_type" {}
 variable "analytics_key_pair_name" {}
-variable "analytics_mysql_allocated_storage" {
-  default = 5
-}
-
-variable "analytics_mysql_root_username" {}
-variable "analytics_mysql_root_password" {}
-variable "analytics_mysql_instance_class" {
-  default = "db.t2.medium"
-}
-
 variable "hosted_zone_domain" {}
-
 variable "instance_iteration" {
   default = 1
 }
-
 
 variable "analytics_identifier" {
   default = "edx-analytics"
