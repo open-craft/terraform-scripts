@@ -31,3 +31,4 @@ https://github.com/open-craft/openedx-deployment/blob/master/docs/analytics/AWS_
 ## Output
 
 - `analytics_security_group_id`: Security Group ID used by the Analytics instance
+- `emr_rds_security_group_id`: Security Group ID used by RDS and EMR
