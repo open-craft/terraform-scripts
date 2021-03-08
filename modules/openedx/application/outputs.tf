@@ -41,3 +41,7 @@ output "rds" {
 output "redis" {
   value = aws_elasticache_cluster.redis
 }
+
+output "edxapp_aws_lb_listener" {
+  value = aws_lb_listener.edxapp
+}
