@@ -49,7 +49,7 @@ resource aws_db_instance mysql_rds_replicas {
   auto_minor_version_upgrade = false
   multi_az = var.enable_replica_multi_az
   replicate_source_db = aws_db_instance.mysql_rds.identifier
-  vpc_security_group_ids = var.replica_extra_security_group_ids
+  vpc_security_group_ids = concat(concat([aws_security_group.rds.id], var.extra_security_group_ids), var.replica_extra_security_group_ids)
 
   skip_final_snapshot = true
 
