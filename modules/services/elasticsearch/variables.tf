@@ -26,10 +26,6 @@ variable "instance_count" {
   default = 2
 }
 
-variable "start_subnets_index" {
-  default = 0
-}
-
-variable "end_subnets_index" {
-  default = 2
+variable "specific_subnet_ids" {
+  default = []
 }
