@@ -22,6 +22,10 @@ variable "dedicated_master_enabled" {
   default = true
 }
 
+variable "extra_security_group_ids" {
+  default = []
+}
+
 variable "instance_count" {
   default = 2
 }

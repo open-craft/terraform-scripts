@@ -32,7 +32,7 @@ resource aws_elasticsearch_domain "openedx" {
 
   vpc_options {
     subnet_ids = length(var.specific_subnet_ids) == 0 ? tolist(data.aws_subnet_ids.default.ids) : var.specific_subnet_ids
-    security_group_ids = [aws_security_group.elasticsearch.id]
+    security_group_ids = concat([aws_security_group.elasticsearch.id], var.extra_security_group_ids)
   }
 
   ebs_options {
