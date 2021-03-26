@@ -10,3 +10,26 @@ variable "number_of_nodes" {
 variable "create_iam_service_linked_role" {
   default = true
 }
+
+variable "zone_awareness_enabled" {
+  default = true
+}
+variable "availability_zone_count" {
+  default = 2
+}
+
+variable "dedicated_master_enabled" {
+  default = true
+}
+
+variable "extra_security_group_ids" {
+  default = []
+}
+
+variable "instance_count" {
+  default = 2
+}
+
+variable "specific_subnet_ids" {
+  default = []
+}

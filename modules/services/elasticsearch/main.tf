@@ -14,25 +14,25 @@ resource aws_elasticsearch_domain "openedx" {
   elasticsearch_version = "1.5"
 
   cluster_config {
-    instance_count = 2
+    instance_count = var.instance_count
     instance_type = var.elasticsearch_instance_type
-    zone_awareness_enabled = true
+    zone_awareness_enabled = var.zone_awareness_enabled
 
-    dedicated_master_enabled = true
+    dedicated_master_enabled = var.dedicated_master_enabled
     dedicated_master_type = var.elasticsearch_instance_type
     dedicated_master_count = var.number_of_nodes
 
-    zone_awareness_config {
-      availability_zone_count = 2
+    dynamic zone_awareness_config {
+      for_each = var.zone_awareness_enabled == true ? [1] : []
+      content {
+        availability_zone_count = var.availability_zone_count
+      }
     }
   }
 
   vpc_options {
-    subnet_ids = [
-      tolist(data.aws_subnet_ids.default.ids)[1],
-      tolist(data.aws_subnet_ids.default.ids)[2],
-    ]
-    security_group_ids = [aws_security_group.elasticsearch.id]
+    subnet_ids = length(var.specific_subnet_ids) == 0 ? tolist(data.aws_subnet_ids.default.ids) : var.specific_subnet_ids
+    security_group_ids = concat([aws_security_group.elasticsearch.id], var.extra_security_group_ids)
   }
 
   ebs_options {

@@ -29,6 +29,7 @@ Pretty basic way of provisioning, it contains the following modules:
 - modules/services/mongodb
 - modules/services/openedx
 - modules/services/sql
+- modules/services/analytics
 
 Please check each of those module folders to see what the module does.
 For a simple AWS OpenedX provisioning, you could reuse these modules on the following way:

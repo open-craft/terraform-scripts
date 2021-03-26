@@ -10,6 +10,10 @@ variable "max_allocated_storage" {
   default = 100
 }
 
+variable "extra_security_group_ids" {
+  default = []
+}
+
 variable "database_root_username" {}
 variable "database_root_password" {}
 
