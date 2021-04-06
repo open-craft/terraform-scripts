@@ -32,7 +32,7 @@ module "elasticsearch" {
   zone_awareness_enabled = false
   create_iam_service_linked_role = false
 
-  specific_subnet_ids = [aws_instance.analytics.subnet_id]
+  specific_subnet_ids = aws_instance.analytics.*.subnet_id
 
   extra_security_group_ids = [
     # Analytics instance needs to be able to read from Elasticsearch
