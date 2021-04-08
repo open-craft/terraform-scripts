@@ -17,14 +17,17 @@ See [this document](https://docs.google.com/drawings/d/1s2hd6hJSKo1a-eqp6rI2kF-a
 Every resource provisioned by Terraform should be created using the following naming schema:
 
 ```
-`{client_shortname}-{environment}-{resource}-{additional_info}`
+`{prefix}-{environment}-{resource}-{additional_info}`
 ```
+- `prefix`: name prefix for all the Terraform provisioned resources.
+- `environment`: `stage`, `production`, `upgrade`.
+- `resource` and `additional_info`: Defined by the modules when instancing resources.
 
 Examples:
 - `opencraftx-production-appserver-1` - Appserver from the production environment of client `OpenCraftX`
 - `example-stage-alb` - Alb resource for client `Example`
 
-To ease the migration and import process, the resources were renaming implies on changing credentials
+To ease the migration and import process, for resources where renaming implies changing credentials
 or replacement, a name override variable is available.
 
 The variables that allow name overrides are detailed on each module, and should be named as following:
@@ -61,7 +64,10 @@ complex with toggles and settings.
 
 ### State storage
 
-The Terraform state file should be stored on a S3 bucket in the client's AWS account.
+The Terraform state file should be stored in a versioned and encrypted storage.
+Some acceptable options are listed below:
+- [GitLab managed Terraform State](https://docs.gitlab.com/ee/user/infrastructure/terraform_state.html)
+- [A AWS S3 bucket](https://www.terraform.io/docs/language/settings/backends/s3.html)
 
 # Legacy documentation
 
