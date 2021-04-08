@@ -49,8 +49,9 @@ resource "aws_lb_target_group" "analytics_lb_target_group" {
 }
 
 resource aws_lb_target_group_attachment edxapp {
+  count = length(var.lb_instance_indexes)
   target_group_arn = aws_lb_target_group.analytics_lb_target_group.arn
-  target_id = aws_instance.analytics.id
+  target_id = aws_instance.analytics[var.lb_instance_indexes[count.index]].id
   port = 80
 
   lifecycle {
@@ -156,6 +157,7 @@ resource "aws_security_group_rule" "analytics-outbound" {
 
 ######################################################
 resource "aws_instance" "analytics" {
+  count = var.number_of_instances
   ami = var.analytics_image_id
   instance_type = var.analytics_instance_type
   vpc_security_group_ids = [aws_security_group.analytics.id]

@@ -4,8 +4,14 @@ variable "analytics_image_id" {}
 variable "analytics_instance_type" {}
 variable "analytics_key_pair_name" {}
 variable "hosted_zone_domain" {}
+variable "number_of_instances" {
+  default = 1
+}
 variable "instance_iteration" {
   default = 1
+}
+variable "lb_instance_indexes" {
+  default = [0]
 }
 
 variable "analytics_identifier" {

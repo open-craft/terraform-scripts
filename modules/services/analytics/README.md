@@ -27,6 +27,10 @@ https://github.com/open-craft/openedx-deployment/blob/master/docs/analytics/AWS_
 - `edxapp_s3_grade_bucket_id`: bucket ID of the `grades` bucket used for the edX instance
 - `edxapp_s3_grade_bucket_arn`: same as before, but the ARN
 - `edxapp_s3_grade_user_arn`: User ARN that's used to read from the `grades` bucket
+- `number_of_instances`: Number of ec2 analytics instances, useful for provisioning new ones as we
+  normally use only 1 instance. Defaults to 1
+- `lb_instance_indexes`: List of indexes of the previous instances to be added to the Load Balancer.
+  Defaults to `[0]` (only the first instance)
 
 ## Output
 
