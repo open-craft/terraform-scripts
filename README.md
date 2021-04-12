@@ -3,10 +3,6 @@
 This repository holds our common Terraform Open edX deployment scripts.
 They can be used to provision and manage the infrastructure required by an Open edX instance on AWS.
 
-### TODOS:
-- [ ] Write usage documentation
-- [ ] Expand the conventions section below with more details and examples
-
 ## Architecture map
 
 See [this document](https://docs.google.com/drawings/d/1s2hd6hJSKo1a-eqp6rI2kF-afACZXlK3f3ymptZjV6M/edit?usp=sharing).
@@ -68,6 +64,7 @@ The Terraform state file should be stored in a versioned and encrypted storage.
 Some acceptable options are listed below:
 - [GitLab managed Terraform State](https://docs.gitlab.com/ee/user/infrastructure/terraform_state.html)
 - [A AWS S3 bucket](https://www.terraform.io/docs/language/settings/backends/s3.html)
+
 
 # Legacy documentation
 
