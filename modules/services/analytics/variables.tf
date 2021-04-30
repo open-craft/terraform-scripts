@@ -22,6 +22,24 @@ variable "provision_role_description" {
   default = "Terraform managed - Opencraft"
 }
 
+variable "emr_service_role_policy" {
+  # Deprecated service role, cf
+  # https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-managed-iam-policies.html
+  default = "arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceRole"
+
+  # Use for new deployments made after May 1 2020
+  # default = "arn:aws:iam::aws:policy/service-role/AmazonEMRServicePolicy_v2"
+}
+
+variable "emr_ec2_service_role_policy" {
+  # Deprecated service role, cf
+  # https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-managed-iam-policies.html
+  default = "arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceforEC2Role"
+
+  # No replacement service role was provided for V2.
+  # For new deployments made after May 1 2020, a new policy will need to be created which allows access to the required resources.
+}
+
 variable "emr_master_security_group_description" {
   default = "Managed by Terraform"
 }
