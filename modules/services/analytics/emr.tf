@@ -75,7 +75,7 @@ resource "aws_iam_role" "emr_default_role" {
 
 resource "aws_iam_role_policy_attachment" "emr-default-role-attachment" {
   role = aws_iam_role.emr_default_role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceRole"
+  policy_arn = var.emr_service_role_policy
 }
 
 data "aws_iam_policy_document" "ec2-assume-role-policy-2008" {
@@ -98,7 +98,7 @@ resource "aws_iam_role" "emr-ec2-default-role" {
 
 resource "aws_iam_role_policy_attachment" "emr-ec2-default-role-attachment" {
   role = aws_iam_role.emr-ec2-default-role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceforEC2Role"
+  policy_arn = var.emr_ec2_service_role_policy
 }
 
 resource "aws_iam_instance_profile" "emr-ec2-default-role-instance-profile" {
