@@ -3,7 +3,7 @@ variable "environment" {}
 
 variable "instance_class" {}
 variable "engine_version" {
-  default = "5.6.48"
+  default = "5.7.33"
 }
 variable "allocated_storage" {}
 variable "max_allocated_storage" {
