@@ -18,7 +18,8 @@ module "mongodb" {
   replication_factor           = var.mongodb_replication_factor
   volume_type                  = var.mongodb_volume_type
   backup_enabled               = var.mongodb_backup_enabled
-  encrypt_ebs_volume           = var.mongodb_encrypt_ebs_volume
   auto_scaling_disk_gb_enabled = var.mongodb_auto_scaling_disk_gb_enabled
   auto_scaling_compute_enabled = var.mongodb_auto_scaling_compute_enabled
+  auto_scaling_min_instances   = var.mongodb_auto_scaling_min_instance_size
+  auto_scaling_max_instances   = var.mongodb_auto_scaling_max_instance_size
 }
