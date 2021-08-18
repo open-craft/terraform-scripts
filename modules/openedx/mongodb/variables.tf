@@ -93,12 +93,6 @@ variable "encryption_at_rest" {
   default     = false
 }
 
-variable "encrypt_ebs_volume" {
-  description = "Indicates whether the Amazon EBS encryption is enabled. This feature encrypts the server’s root volume for both data at rest within the volume and data moving between the volume and the instance"
-  type        = bool
-  default     = false
-}
-
 variable "auto_scaling_disk_gb_enabled" {
   description = "Indicates whether disk auto-scaling is enabled for the MongoDB cluster"
   type        = bool
@@ -113,12 +107,12 @@ variable "auto_scaling_compute_enabled" {
 
 variable "auto_scaling_min_instances" {
   description = "Minimum instance size to which the MongoDB cluster can automatically scale"
-  type        = number
+  type        = string
   default     = null
 }
 
 variable "auto_scaling_max_instances" {
   description = "Maximum instance size to which the MongoDB cluster can automatically scale"
-  type        = number
+  type        = string
   default     = null
 }

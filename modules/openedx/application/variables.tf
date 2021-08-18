@@ -114,7 +114,7 @@ variable "mongodb_disk_size_gb" {
 variable "mongodb_version" {
   description = "The version of MongoDB to deploy"
   type        = string
-  default     = "3.6"
+  default     = "4.0"
 }
 
 variable "mongodb_num_shards" {
@@ -153,12 +153,6 @@ variable "mongodb_encryption_at_rest" {
   default     = false
 }
 
-variable "mongodb_encrypt_ebs_volume" {
-  description = "Indicates whether the Amazon EBS encryption is enabled for the MongoDB cluster. This feature encrypts the server’s root volume for both data at rest within the volume and data moving between the volume and the instance"
-  type        = bool
-  default     = false
-}
-
 variable "mongodb_auto_scaling_disk_gb_enabled" {
   description = "Indicates whether disk auto-scaling is enabled for the MongoDB cluster"
   type        = bool
@@ -171,15 +165,15 @@ variable "mongodb_auto_scaling_compute_enabled" {
   default     = false
 }
 
-variable "mongodb_auto_scaling_min_instances" {
+variable "mongodb_auto_scaling_min_instance_size" {
   description = "Minimum instance size to which the MongoDB cluster can automatically scale"
-  type        = number
+  type        = string
   default     = null
 }
 
-variable "mongodb_auto_scaling_max_instances" {
+variable "mongodb_auto_scaling_max_instance_size" {
   description = "Maximum instance size to which the MongoDB cluster can automatically scale"
-  type        = number
+  type        = string
   default     = null
 }
 

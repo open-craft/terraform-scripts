@@ -17,8 +17,7 @@ resource "mongodbatlas_cluster" "cluster" {
   disk_size_gb                = local.disk_size_gb
   provider_disk_iops          = local.disk_iops
   provider_volume_type        = local.volume_type
-  provider_backup_enabled     = var.backup_enabled
+  cloud_backup                = var.backup_enabled
   encryption_at_rest_provider = local.encryption_at_rest_provider
-  provider_encrypt_ebs_volume = var.encrypt_ebs_volume
   provider_instance_size_name = var.instance_size
 }
