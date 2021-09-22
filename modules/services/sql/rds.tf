@@ -1,10 +1,14 @@
+locals {
+  vpc_id = var.specific_vpc_id != "" ? var.specific_vpc_id : data.aws_vpc.default[0].id
+}
+
 data "aws_vpc" "default" {
   default = true
-  count = length(var.specific_subnet_ids) > 0 ? 0 : 1
+  count = var.specific_vpc_id == "" ? 1 : 0
 }
 
 data "aws_subnet_ids" "default" {
-  vpc_id = data.aws_vpc.default[0].id
+  vpc_id = local.vpc_id
   count = length(var.specific_subnet_ids) > 0 ? 0 : 1
 }
 
@@ -69,6 +73,7 @@ resource aws_db_subnet_group primary {
 
 resource aws_security_group rds {
   name = "${var.customer_name}-${var.environment}-edxapp-rds"
+  vpc_id = local.vpc_id
 }
 
 resource aws_security_group_rule rds-outbound-rule {

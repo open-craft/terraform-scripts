@@ -5,7 +5,7 @@ variable "environment" {}
 
 variable "director_security_group_id" {}
 
-variable "specific_vpc_id" { default = 0 }
+variable "specific_vpc_id" { default = "" }
 variable "specific_subnet_ids" { default = [] }
 variable "specific_lb_certificate_arn" { default = "" }
 
@@ -32,3 +32,6 @@ variable "lb_ssl_security_policy" {
   description = "The AWS ssl security policy to be used by load balancer"
   default = "ELBSecurityPolicy-2016-08"
 }
+
+variable "allow_consul" { default = 1 }
+variable "allow_prometheus" { default = 1 }

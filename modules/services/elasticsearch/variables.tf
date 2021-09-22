@@ -33,3 +33,4 @@ variable "instance_count" {
 variable "specific_subnet_ids" {
   default = []
 }
+variable "specific_vpc_id" { default = "" }

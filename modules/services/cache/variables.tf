@@ -24,3 +24,5 @@ variable "memcached_parameter_group_name" {
 variable "memcached_port" {
   default = 11211
 }
+
+variable "specific_vpc_id" { default = "" }

@@ -1,5 +1,10 @@
+locals {
+  vpc_id = var.specific_vpc_id != "" ? var.specific_vpc_id : data.aws_vpc.default[0].id
+}
+
 resource aws_security_group edxapp {
   name = "${var.customer_name}-${var.environment}-edxapp"
+  vpc_id = local.vpc_id
 }
 
 resource aws_security_group_rule edxapp_inbound_rule {

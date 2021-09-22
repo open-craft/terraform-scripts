@@ -1,10 +1,10 @@
 data "aws_vpc" "default" {
   default = true
-  count = length(var.specific_vpc_id) > 0 ? 0 : 1
+  count = var.specific_vpc_id == "" ? 1 : 0
 }
 
 data "aws_subnet_ids" "default" {
-  vpc_id = length(var.specific_vpc_id) > 0 ? var.specific_vpc_id : data.aws_vpc.default[0].id
+  vpc_id = local.vpc_id
   count = length(var.specific_subnet_ids) > 0 ? 0 : 1
 }
 
@@ -27,7 +27,7 @@ resource aws_lb edxapp {
 resource aws_lb_target_group edxapp {
   port = 80
   protocol = "HTTP"
-  vpc_id = length(var.specific_vpc_id) > 0 ? var.specific_vpc_id : data.aws_vpc.default[0].id
+  vpc_id = var.specific_vpc_id != "" ? var.specific_vpc_id : data.aws_vpc.default[0].id
 
   health_check {
     path = "/"
@@ -86,6 +86,7 @@ resource aws_lb_listener http {
 
 resource aws_security_group lb {
   name = "${var.customer_name}-${var.environment}-edxapp-lb"
+  vpc_id = local.vpc_id
 }
 
 resource aws_security_group_rule lb-inbound-http {
@@ -126,6 +127,8 @@ resource aws_security_group_rule lb-inbound-tcp-prometheus {
   to_port = local.prometheus_tcp_port
   protocol = local.tcp_protocol
   cidr_blocks = local.all_ips
+
+  count = var.allow_prometheus
 }
 
 resource aws_security_group_rule lb-inbound-tcp-consul {
@@ -136,6 +139,8 @@ resource aws_security_group_rule lb-inbound-tcp-consul {
   to_port = local.consul_tcp_to_port
   protocol = local.tcp_protocol
   cidr_blocks = local.all_ips
+
+  count = var.allow_consul
 }
 
 resource aws_security_group_rule lb-inbound-udp-consul {
@@ -146,6 +151,8 @@ resource aws_security_group_rule lb-inbound-udp-consul {
   to_port = local.consul_udp_to_port
   protocol = local.udp_protocol
   cidr_blocks = local.all_ips
+
+  count = var.allow_consul
 }
 
 resource aws_security_group_rule lb-outbound {

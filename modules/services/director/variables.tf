@@ -10,3 +10,5 @@ variable "environment" {
 variable "custom_security_group_name" {
   default = ""
 }
+
+variable "specific_vpc_id" { default = "" }
