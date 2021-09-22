@@ -1,9 +1,11 @@
 data "aws_vpc" "default" {
   default = true
+  count = length(var.specific_subnet_ids) > 0 ? 0 : 1
 }
 
 data "aws_subnet_ids" "default" {
-  vpc_id = data.aws_vpc.default.id
+  vpc_id = data.aws_vpc.default[0].id
+  count = length(var.specific_subnet_ids) > 0 ? 0 : 1
 }
 
 resource aws_db_instance mysql_rds {
@@ -62,7 +64,7 @@ resource aws_kms_key rds_encryption {
 
 resource aws_db_subnet_group primary {
   name = "${var.customer_name}-${var.environment}-openedx"
-  subnet_ids = data.aws_subnet_ids.default.ids
+  subnet_ids = length(var.specific_subnet_ids) == 0 ? tolist(data.aws_subnet_ids.default[0].ids) : var.specific_subnet_ids
 }
 
 resource aws_security_group rds {

@@ -5,6 +5,10 @@ variable "environment" {}
 
 variable "director_security_group_id" {}
 
+variable "specific_vpc_id" { default = 0 }
+variable "specific_subnet_ids" { default = [] }
+variable "specific_lb_certificate_arn" { default = "" }
+
 variable "route53_subdomains" {
   default = [
     "www",

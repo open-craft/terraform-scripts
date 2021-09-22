@@ -1,21 +1,24 @@
-data aws_vpc "default" {
+data "aws_vpc" "default" {
   default = true
+  count = length(var.specific_vpc_id) > 0 ? 0 : 1
 }
 
-data aws_subnet_ids "default" {
-  vpc_id = data.aws_vpc.default.id
+data "aws_subnet_ids" "default" {
+  vpc_id = length(var.specific_vpc_id) > 0 ? var.specific_vpc_id : data.aws_vpc.default[0].id
+  count = length(var.specific_subnet_ids) > 0 ? 0 : 1
 }
 
 data aws_acm_certificate "customer_subdomains_certificate_arn" {
   domain = "*.${var.customer_domain}"
   statuses = ["ISSUED", "PENDING_VALIDATION"]
   most_recent = true
+  count = length(var.specific_lb_certificate_arn) > 0 ? 0 : 1
 }
 
 resource aws_lb edxapp {
   name = "${var.customer_name}-${var.environment}-edxapp"
   load_balancer_type = "application"
-  subnets = data.aws_subnet_ids.default.ids
+  subnets = length(var.specific_subnet_ids) > 0 ? var.specific_subnet_ids : data.aws_subnet_ids.default[0].ids
   security_groups = [aws_security_group.lb.id]
 
   idle_timeout = var.lb_idle_timeout
@@ -24,7 +27,7 @@ resource aws_lb edxapp {
 resource aws_lb_target_group edxapp {
   port = 80
   protocol = "HTTP"
-  vpc_id = data.aws_vpc.default.id
+  vpc_id = length(var.specific_vpc_id) > 0 ? var.specific_vpc_id : data.aws_vpc.default[0].id
 
   health_check {
     path = "/"
@@ -44,8 +47,7 @@ resource aws_lb_listener "https" {
   protocol = "HTTPS"
 
   ssl_policy = var.lb_ssl_security_policy
-  certificate_arn = data.aws_acm_certificate.customer_subdomains_certificate_arn.arn
-
+  certificate_arn = length(var.specific_lb_certificate_arn) > 0 ? var.specific_lb_certificate_arn : data.aws_acm_certificate.customer_subdomains_certificate_arn[0].arn
 
   default_action {
     type = "forward"
