@@ -12,3 +12,4 @@ variable "custom_security_group_name" {
 }
 
 variable "specific_vpc_id" { default = "" }
+variable "specific_subnet_id" { default = "" }

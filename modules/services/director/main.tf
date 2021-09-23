@@ -1,12 +1,3 @@
-locals {
-  vpc_id = var.specific_vpc_id != "" ? var.specific_vpc_id : data.aws_vpc.default[0].id
-}
-
-data "aws_vpc" "default" {
-  default = true
-  count = var.specific_vpc_id == "" ? 1 : 0
-}
-
 resource aws_instance director {
   ami = var.image_id
   instance_type = var.instance_type
@@ -15,6 +6,7 @@ resource aws_instance director {
     create_before_destroy = true
   }
 
+  subnet_id = var.specific_subnet_id
   vpc_security_group_ids = [aws_security_group.director.id]
 
   key_name = var.director_key_pair_name
@@ -36,7 +28,7 @@ resource aws_instance director {
 }
 
 resource aws_security_group director {
-  vpc_id = local.vpc_id
+  vpc_id = var.specific_vpc_id
   name = var.custom_security_group_name == "" ? "edx-${var.environment}-director" : var.custom_security_group_name
 }
 

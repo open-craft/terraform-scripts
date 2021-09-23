@@ -9,6 +9,7 @@ variable "specific_vpc_id" { default = "" }
 variable "specific_subnet_ids" { default = [] }
 variable "specific_lb_certificate_arn" { default = "" }
 
+variable "route53_create_main_domain" { default = true }
 variable "route53_subdomains" {
   default = [
     "www",

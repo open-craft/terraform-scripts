@@ -1,16 +1,3 @@
-locals {
-  vpc_id = var.specific_vpc_id != "" ? var.specific_vpc_id : data.aws_vpc.default[0].id
-}
-
-data "aws_vpc" "default" {
-  default = true
-  count = var.specific_vpc_id == "" ? 1 : 0
-}
-
-data "aws_subnet_ids" "default" {
-  vpc_id = local.vpc_id
-}
-
 resource aws_elasticache_cluster redis {
   cluster_id = "edx-${var.customer_name}-${var.environment}-redis-cluster"
   engine = "redis"
@@ -19,6 +6,7 @@ resource aws_elasticache_cluster redis {
   parameter_group_name = var.redis_parameter_group_name
 
   security_group_ids = [aws_security_group.cache.id]
+  subnet_group_name = var.specific_subnet_group_name
   port = var.redis_port
 }
 
@@ -30,11 +18,12 @@ resource aws_elasticache_cluster memcached {
   parameter_group_name = var.memcached_parameter_group_name
 
   security_group_ids = [aws_security_group.cache.id]
+  subnet_group_name = var.specific_subnet_group_name
   port = var.memcached_port
 }
 
 resource aws_security_group cache {
-  vpc_id = local.vpc_id
+  vpc_id = var.specific_vpc_id
   name = "${var.customer_name}-${var.environment}-edxapp-cache"
 }
 

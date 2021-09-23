@@ -26,3 +26,4 @@ variable "memcached_port" {
 }
 
 variable "specific_vpc_id" { default = "" }
+variable "specific_subnet_group_name" { default = "" }
