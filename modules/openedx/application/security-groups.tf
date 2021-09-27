@@ -22,6 +22,8 @@ resource "aws_security_group_rule" "allow_prometheus_monitoring_tcp_19100_ingres
   protocol                 = "tcp"
   from_port                = 19100
   to_port                  = 19100
+  cidr_blocks              = ["0.0.0.0/0"]
+  ipv6_cidr_blocks         = ["::/0"]
 }
 
 /*
