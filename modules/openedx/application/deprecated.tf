@@ -64,6 +64,18 @@ variable "deprecated_cache_security_group_description" {
   default     = null
 }
 
+variable "deprecated_allow_prometheus_security_group_name" {
+  description = "DEPRECATED - Use client_shortname and environment. Overwrites the allow_prometheus security group name"
+  type        = string
+  default     = null
+}
+
+variable "deprecated_allow_prometheus_security_group_description" {
+  description = "DEPRECATED - Use environment. Overwrites the allow_prometheus security group description"
+  type        = string
+  default     = null
+}
+
 variable "deprecated_memcached_cluster_id" {
   description = "DEPRECATED - Use client_shortname and environment. Overwrites the memcached cluster id"
   type        = string
@@ -110,6 +122,17 @@ locals {
   lb_target_group_name = coalesce(
     var.deprecated_lb_target_group_name,
     lower(join("-", [var.client_shortname, "edxapp", var.environment]))
+  )
+
+  allow_prometheus_security_group_name = coalesce(
+    var.deprecated_allow_prometheus_security_group_name,
+    lower(join("-", [var.client_shortname, "allow_prometheus", var.environment]))
+  )
+
+  allow_prometheus_default_sg_description = "Security group for the ${title(var.environment)} which allows Prometheus ports."
+  allow_prometheus_security_group_description = coalesce(
+    var.deprecated_allow_prometheus_security_group_description,
+    local.allow_prometheus_default_sg_description
   )
 
   application_security_group_name = coalesce(

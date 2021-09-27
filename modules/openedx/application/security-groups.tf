@@ -11,9 +11,8 @@ locals {
 }
 
 resource "aws_security_group" "allow_prometheus" {
-  // TODO: change name and description
-  name        = "allow_prometheus"
-  description = "Allow Prometheus monitoring port."
+  name        = local.allow_prometheus_security_group_name
+  description = local.allow_prometheus_security_group_description
   vpc_id      = var.aws_vpc_id
 }
 
