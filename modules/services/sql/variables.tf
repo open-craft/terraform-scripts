@@ -13,6 +13,8 @@ variable "max_allocated_storage" {
 variable "extra_security_group_ids" {
   default = []
 }
+variable "specific_vpc_id" { default = "" }
+variable "specific_subnet_group_name" { default = "" }
 
 variable "database_root_username" {}
 variable "database_root_password" {}

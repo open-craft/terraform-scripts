@@ -1,9 +1,15 @@
+locals {
+  vpc_id = var.specific_vpc_id != "" ? var.specific_vpc_id : data.aws_vpc.default[0].id
+}
+
 data "aws_vpc" "default" {
   default = true
+  count = length(var.specific_subnet_ids) > 0 ? 0 : 1
 }
 
 data "aws_subnet_ids" "default" {
-  vpc_id = data.aws_vpc.default.id
+  vpc_id = local.vpc_id
+  count = length(var.specific_subnet_ids) > 0 ? 0 : 1
 }
 
 data "aws_region" "current" {}
@@ -31,7 +37,7 @@ resource aws_elasticsearch_domain "openedx" {
   }
 
   vpc_options {
-    subnet_ids = length(var.specific_subnet_ids) == 0 ? tolist(data.aws_subnet_ids.default.ids) : var.specific_subnet_ids
+    subnet_ids = length(var.specific_subnet_ids) == 0 ? tolist(data.aws_subnet_ids.default[0].ids) : var.specific_subnet_ids
     security_group_ids = concat([aws_security_group.elasticsearch.id], var.extra_security_group_ids)
   }
 
@@ -68,6 +74,7 @@ resource aws_iam_service_linked_role "elasticsearch" {
 }
 
 resource aws_security_group "elasticsearch" {
+  vpc_id = local.vpc_id
   name = "${var.customer_name}-${var.environment}-edxapp-elasticsearch"
 }
 

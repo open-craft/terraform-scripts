@@ -1,9 +1,12 @@
-data "aws_vpc" "default" {
-  default = true
+data "aws_subnet_ids" "default" {
+  vpc_id = var.specific_vpc_id
+  count = var.specific_subnet_group_name == "" ? 1 : 0
 }
 
-data "aws_subnet_ids" "default" {
-  vpc_id = data.aws_vpc.default.id
+resource aws_db_subnet_group primary {
+  name = "${var.customer_name}-${var.environment}-openedx"
+  subnet_ids = tolist(data.aws_subnet_ids.default[0].ids)
+  count = var.specific_subnet_group_name == "" ? 1 : 0
 }
 
 resource aws_db_instance mysql_rds {
@@ -27,7 +30,7 @@ resource aws_db_instance mysql_rds {
   username = var.database_root_username
   password = var.database_root_password
 
-  db_subnet_group_name = aws_db_subnet_group.primary.name
+  db_subnet_group_name = var.specific_subnet_group_name != "" ? var.specific_subnet_group_name : aws_db_subnet_group.primary[0].name
   vpc_security_group_ids = concat([aws_security_group.rds.id], var.extra_security_group_ids)
 
   max_allocated_storage = var.max_allocated_storage
@@ -60,13 +63,9 @@ resource aws_kms_key rds_encryption {
   description = "KMS RDS Encryption"
 }
 
-resource aws_db_subnet_group primary {
-  name = "${var.customer_name}-${var.environment}-openedx"
-  subnet_ids = data.aws_subnet_ids.default.ids
-}
-
 resource aws_security_group rds {
   name = "${var.customer_name}-${var.environment}-edxapp-rds"
+  vpc_id = var.specific_vpc_id
 }
 
 resource aws_security_group_rule rds-outbound-rule {

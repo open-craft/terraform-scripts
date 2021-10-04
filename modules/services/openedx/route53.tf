@@ -26,4 +26,6 @@ resource aws_route53_record "main_domain_lb_record" {
     name = aws_lb.edxapp.dns_name
     zone_id = aws_lb.edxapp.zone_id
   }
+
+  count = var.route53_create_main_domain ? 1 : 0
 }
