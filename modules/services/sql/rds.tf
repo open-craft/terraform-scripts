@@ -1,6 +1,15 @@
+locals {
+  vpc_id = var.specific_vpc_id != "" ? var.specific_vpc_id : data.aws_vpc.default[0].id
+}
+
+data "aws_vpc" "default" {
+  default = true
+  count = length(var.specific_subnet_ids) > 0 ? 0 : 1
+}
+
 data "aws_subnet_ids" "default" {
-  vpc_id = var.specific_vpc_id
-  count = var.specific_subnet_group_name == "" ? 1 : 0
+  vpc_id = local.vpc_id
+  count = length(var.specific_subnet_ids) > 0 ? 0 : 1
 }
 
 resource aws_db_subnet_group primary {
