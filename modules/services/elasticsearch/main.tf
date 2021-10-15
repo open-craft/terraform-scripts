@@ -17,7 +17,7 @@ data "aws_caller_identity" "current" {}
 
 resource aws_elasticsearch_domain "openedx" {
   domain_name = "${var.customer_name}-${var.environment}-elasticsearch"
-  elasticsearch_version = "1.5"
+  elasticsearch_version = "7.8"
 
   cluster_config {
     instance_count = var.instance_count
