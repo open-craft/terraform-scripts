@@ -55,31 +55,3 @@ resource aws_ses_email_identity "verifiable_emails" {
 
   email = var.custom_emails_to_verify[count.index]
 }
-
-resource aws_ses_receipt_rule_set "ses_rule_set" {
-  rule_set_name = "${var.customer_name}-${var.environment}-rule-set"
-}
-
-resource aws_ses_receipt_rule "ses_receipt_rule" {
-  name = "${var.customer_name}-${var.environment}-receipt-rule"
-  rule_set_name = aws_ses_receipt_rule_set.ses_rule_set.rule_set_name
-  recipients = [
-    for email_name in var.internal_emails : "${email_name}@${var.customer_domain}"
-  ]
-
-  enabled = true
-  scan_enabled = true
-
-  sns_action {
-    position = 1
-    topic_arn = aws_sns_topic.sns_set_topic.arn
-  }
-}
-
-resource aws_ses_active_receipt_rule_set "ses_active_receipt_rule_set" {
-  rule_set_name = aws_ses_receipt_rule_set.ses_rule_set.rule_set_name
-}
-
-resource aws_sns_topic "sns_set_topic" {
-  name = "${var.customer_name}-${var.environment}-sns-set-topic"
-}
