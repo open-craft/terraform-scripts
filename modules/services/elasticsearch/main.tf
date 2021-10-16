@@ -1,10 +1,9 @@
 locals {
-  vpc_id = var.specific_vpc_id != "" ? var.specific_vpc_id : data.aws_vpc.default[0].id
+  vpc_id = var.specific_vpc_id != "" ? var.specific_vpc_id : data.aws_vpc.default.id
 }
 
 data "aws_vpc" "default" {
   default = true
-  count = length(var.specific_subnet_ids) > 0 ? 0 : 1
 }
 
 data "aws_subnet_ids" "default" {
@@ -15,8 +14,16 @@ data "aws_subnet_ids" "default" {
 data "aws_region" "current" {}
 data "aws_caller_identity" "current" {}
 
+locals {
+  # This name cannot be longer than 28 characters.
+  # We want to use the long name by default to avoid breaking backward compatibility.
+  es_long_domain_name = "${var.customer_name}-${var.environment}-elasticsearch"
+  es_short_domain_name = "${var.customer_name}-${var.environment}-es"
+  es_domain_name = length(local.es_long_domain_name) <= 28 ? local.es_long_domain_name : local.es_short_domain_name
+}
+
 resource aws_elasticsearch_domain "openedx" {
-  domain_name = "${var.customer_name}-${var.environment}-elasticsearch"
+  domain_name = local.es_domain_name
   elasticsearch_version = "1.5"
 
   cluster_config {

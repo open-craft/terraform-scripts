@@ -7,6 +7,7 @@ Some assumptions:
 **/
 
 data aws_route53_zone hosted_zone {
+  count = var.use_route53 ? 1 : 0
   name = var.hosted_zone_domain
 }
 
@@ -14,8 +15,17 @@ data aws_vpc "default" {
   default = true
 }
 
+locals {
+  vpc_id = var.aws_vpc_id != "" ? var.aws_vpc_id : data.aws_vpc.default.id
+}
+
 data aws_subnet_ids "default" {
-  vpc_id = data.aws_vpc.default.id
+  vpc_id = local.vpc_id
+}
+
+data aws_subnet "default" {
+  for_each = data.aws_subnet_ids.default.ids
+  id       = each.value
 }
 
 data aws_acm_certificate "customer_subdomains_certificate_arn" {
@@ -33,9 +43,10 @@ resource "aws_lb" "analytics_lb" {
 }
 
 resource "aws_lb_target_group" "analytics_lb_target_group" {
+  name = "${var.customer_name}-${var.environment}"
   port = 80
   protocol = "HTTP"
-  vpc_id = data.aws_vpc.default.id
+  vpc_id = local.vpc_id
 
   health_check {
     path = "/"
@@ -90,9 +101,10 @@ resource "aws_lb_listener" "redirect_http_to_https" {
 }
 
 resource "aws_route53_record" "analytics" {
+  count = var.use_route53 ? 1 : 0  // Optional
   name = "insights.${var.hosted_zone_domain}"
   type = "A"
-  zone_id = data.aws_route53_zone.hosted_zone.zone_id
+  zone_id = data.aws_route53_zone.hosted_zone[0].zone_id
 
   alias {
     evaluate_target_health = false
@@ -103,6 +115,7 @@ resource "aws_route53_record" "analytics" {
 
 resource "aws_security_group" "analytics" {
   name = var.analytics_identifier
+  vpc_id = local.vpc_id
 }
 
 resource "aws_security_group_rule" "analytics-inbound-http" {
@@ -155,12 +168,19 @@ resource "aws_security_group_rule" "analytics-outbound" {
   cidr_blocks = local.all_ips
 }
 
+locals {
+  instance_legacy_name = "analytics-${var.instance_iteration}"
+  instance_extended_name = join("-", [var.customer_name, var.environment, var.instance_iteration])
+  instance_name = var.extended_instance_name ? local.instance_extended_name : local.instance_legacy_name
+}
+
 ######################################################
 resource "aws_instance" "analytics" {
   count = var.number_of_instances
   ami = var.analytics_image_id
   instance_type = var.analytics_instance_type
   vpc_security_group_ids = [aws_security_group.analytics.id]
+  subnet_id = tolist(data.aws_subnet_ids.default.ids)[0]
 
   iam_instance_profile = aws_iam_instance_profile.provision-role-instance-profile.name
 
@@ -172,6 +192,6 @@ resource "aws_instance" "analytics" {
   }
 
   tags = {
-    Name = "analytics-${var.instance_iteration}"
+    Name = local.instance_name
   }
 }

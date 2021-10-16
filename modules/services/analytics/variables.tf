@@ -58,6 +58,24 @@ variable "edxapp_s3_grade_bucket_id" {}
 variable "edxapp_s3_grade_bucket_arn" {}
 variable "edxapp_s3_grade_user_arn" {}
 
+variable "use_route53" {
+  description = "Allows disabling Route 53 setup when using external DNS."
+  type        = bool
+  default     = true
+}
+
+variable "extended_instance_name" {
+  description = "Allows naming analytics instances with a similar pattern that other resources use."
+  type        = bool
+  default     = false
+}
+
+variable "aws_vpc_id" {
+  description = "The ID of the AWS VPC that should contain all resources. If not specified, the default VPC is used."
+  type        = string
+  default     = ""
+}
+
 locals {
   http_port = 80
   https_port = 443
