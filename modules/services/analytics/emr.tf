@@ -111,6 +111,7 @@ resource "aws_iam_instance_profile" "emr-ec2-default-role-instance-profile" {
 resource "aws_security_group" "emr-master" {
   name = "ElasticMapReduce-master"
   description = var.emr_master_security_group_description
+  vpc_id = local.vpc_id
 }
 
 resource "aws_security_group_rule" "emr-master-tcp-same-inbound" {
@@ -205,6 +206,7 @@ resource "aws_security_group_rule" "emr-master-analytics-inbound" {
 resource "aws_security_group" "emr-slave" {
   name = "ElasticMapReduce-slave"
   description = var.emr_slave_security_group_description
+  vpc_id = local.vpc_id
 }
 
 resource "aws_security_group_rule" "emr-slave-tcp-same-inbound" {

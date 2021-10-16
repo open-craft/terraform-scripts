@@ -31,6 +31,11 @@ https://github.com/open-craft/openedx-deployment/blob/master/docs/analytics/AWS_
   normally use only 1 instance. Defaults to 1
 - `lb_instance_indexes`: List of indexes of the previous instances to be added to the Load Balancer.
   Defaults to `[0]` (only the first instance)
+- `use_route53`: Allows disabling Route 53 setup when using external DNS. Defaults to `true`.
+- `extended_instance_name`: Allows naming analytics instances with a similar pattern that other resources use.
+  Defaults to `false` for backward compatibility.
+- `aws_vpc_id`: The ID of the AWS VPC that should contain all resources.
+  Defaults to an empty string - the default VPC is used in such case.
 
 ## Output
 

@@ -1,5 +1,6 @@
 resource "aws_security_group" "emr-rds" {
   name = "EMR RDS"
+  vpc_id = local.vpc_id
 }
 
 resource "aws_security_group_rule" "emr-rds-master-inbound" {
