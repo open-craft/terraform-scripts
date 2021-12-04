@@ -21,5 +21,5 @@ variable "origin_domain" {
 variable "cache_expiration" {
   description = "Time of cache expiration in seconds."
   type = number
-  default = 3600
+  default = 31536000
 }
