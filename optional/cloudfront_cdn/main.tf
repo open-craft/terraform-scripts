@@ -22,24 +22,24 @@ resource "aws_cloudfront_distribution" "cloudfront_distribution" {
   }
 
   default_cache_behavior {
-    allowed_methods  = ["GET", "HEAD", "OPTIONS"]
+    allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = var.origin_domain
 
     default_ttl            = var.cache_expiration
     max_ttl                = var.cache_expiration
     compress               = true
-    viewer_protocol_policy = "allow-all"
+    viewer_protocol_policy = "redirect-to-https"
 
     forwarded_values {
       query_string = true
 
       headers = [
-        "*",
+        "Origin",
       ]
 
       cookies {
-        forward           = "none"
+        forward = "none"
       }
     }
   }
