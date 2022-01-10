@@ -9,6 +9,8 @@ group for the OpenedX instance.
 - `customer_name`: the customer's name, this variable is used for resource naming
 - `environment`: `prod` for example, this variable is used for resource naming
 - `edxapp_security_group_id`: and AWS security group id, It should be the one configured for your OpenedX instance.
+- `elasticsearch_version`: defaults to `1.5`
+- `elasticsearch_instance_type`: defaults to `t2.small.elasticsearch`
 - `zone_awareness_enabled`: Indicates whether zone awareness is enabled in the ES domain. Defaults to `true`
 - `availability_zone_count`: Used if `zone_awareness_enabled` is `true`, sets the number of Availability Zones
   to be used. Defaults to `2`
