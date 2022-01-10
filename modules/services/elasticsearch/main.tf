@@ -24,7 +24,7 @@ locals {
 
 resource aws_elasticsearch_domain "openedx" {
   domain_name = local.es_domain_name
-  elasticsearch_version = "1.5"
+  elasticsearch_version = var.elasticsearch_version
 
   cluster_config {
     instance_count = var.instance_count
