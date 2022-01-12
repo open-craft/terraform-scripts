@@ -287,3 +287,10 @@ variable "enable_course_discovery" {
   type        = bool
   default     = false
 }
+
+### Load Balancer Settings ###############################
+variable "load_balancer_idle_timeout" {
+  description = "The time in seconds that the Load Balancer will allow the connection to be idle."
+  type        = number
+  default     = 60
+}

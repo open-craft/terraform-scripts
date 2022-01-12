@@ -2,6 +2,7 @@ resource "aws_lb" "application" {
   name               = local.load_balancer_name
   load_balancer_type = "application"
   subnets            = data.aws_subnet_ids.subnets.ids
+  idle_timeout       = var.load_balancer_idle_timeout
   security_groups = [
     aws_security_group.edxapp_appserver.id
   ]
