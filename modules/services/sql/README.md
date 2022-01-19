@@ -24,3 +24,4 @@ AWS Security Group
 ## Output
 
 - `mysql_host_name`: MySQL instance Endpoint. To be set in the `EDXAPP_MYSQL_HOST` variable
+- `mysql_instance_id`: MySQL instance id. To be used to setup CloudWatch alarms
