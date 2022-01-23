@@ -31,15 +31,3 @@ variable "rds_instances" {
   type        = list(string)
   default     = []
 }
-
-variable "override_default_low_priority_email" {
-  description = "Used to override the default email address for low priority alerts"
-  type        = string
-  default     = null
-}
-
-variable "override_default_high_priority_email" {
-  description = "Used to override the default email address for high priority alerts"
-  type        = string
-  default     = null
-}
