@@ -51,8 +51,8 @@ resource "aws_sns_topic_subscription" "high_priority_email_subscription" {
 
 ## Output
 
-- `low_priority_alert_arn`: ARN of low priority alert to enable subscriptions
-- `high_priority_alert_arn`: ARN of high priority alert to enable subscriptions
+- `low_priority_alert_arn`: ARN of low priority alert topic to enable subscriptions
+- `high_priority_alert_arn`: ARN of high priority alert topic to enable subscriptions
 
 
 ## TODOS
