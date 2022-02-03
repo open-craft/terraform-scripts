@@ -10,11 +10,11 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu_alert_ec2" {
   ok_actions      = [aws_sns_topic.high_priority_alert.arn]
 
   comparison_operator = "GreaterThanOrEqualToThreshold"
-  evaluation_periods  = "12"
+  evaluation_periods  = "6"
   threshold           = "90"
   metric_name         = "CPUUtilization"
   statistic           = "Average"
-  period              = "300"
+  period              = "60"
   namespace           = "AWS/EC2"
   dimensions = {
     InstanceId = "${element(var.ec2_instances, count.index)}"
