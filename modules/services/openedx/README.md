@@ -79,3 +79,5 @@ respective security groups and listeneres
 - `lb_idle_timeout`: Load Balancer idle timeout
 - `enable_https`: If your ACM is not issued just yet or you don't need https, set this to `false`  
 - `lb_ssl_security_policy`: The predefined AWS ssl policy to be used by the load balancer. Defaults to "ELBSecurityPolicy-2016-08"
+- `enable_lb_stickiness`
+- `lb_stickiness_duration`

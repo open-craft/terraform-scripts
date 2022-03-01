@@ -29,6 +29,12 @@ resource aws_lb_target_group edxapp {
   protocol = "HTTP"
   vpc_id = var.specific_vpc_id != "" ? var.specific_vpc_id : data.aws_vpc.default[0].id
 
+  stickiness {
+    cookie_duration = var.lb_stickiness_cookie_duration
+    enabled = var.enable_lb_stickiness
+    type = "lb_cookie"
+  }
+
   health_check {
     path = "/"
     protocol = "HTTP"
