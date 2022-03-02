@@ -36,3 +36,13 @@ variable "lb_ssl_security_policy" {
 
 variable "allow_consul" { default = 1 }
 variable "allow_prometheus" { default = 1 }
+
+variable "enable_lb_stickiness" {
+  description = "Enabled load balancer stickiness."
+  default = false
+}
+
+variable "lb_stickiness_cookie_duration" {
+  description = "Time period, in seconds, during which requests from a client should be rooted to the same target."
+  default = 600
+}
