@@ -38,7 +38,7 @@ output "openedx_cdn_domain_name" {
 ## Custom CDN domain
 
 You can use a custom domain (alias) for the CloudFront distribution by configuring the following optional variables:
-1. `aliases`:  A list of aliases that will can be used instead of the Cloudfront distribution's domain.
+1. `aliases`:  A list of aliases that can be used instead of the Cloudfront distribution's domain.
 2. `alias_zone_id`: ID of the Route 53 zone, in which an alias subdomain should be created. Set this if you want the subdomain to be created automatically.
 3. `alias_name: `: Prefix for the CDN subdomain. Default: `cdn`.
 4. `alias_certificate_arn`: Set this if you have an existing ACM certificate in the `us-east-1` region. Otherwise, a new certificate will be created.

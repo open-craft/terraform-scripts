@@ -75,9 +75,9 @@ resource "aws_cloudfront_distribution" "cloudfront_distribution" {
     acm_certificate_arn = (
                             var.aliases == null
                               ? null
-                              : var.alias_certificate_arn == null
-                                ? aws_acm_certificate.alias_certificate[0].arn
-                                  : var.alias_certificate_arn
+                              : var.alias_certificate_arn != null
+                                ? var.alias_certificate_arn
+                                  : aws_acm_certificate.alias_certificate[0].arn
                           )
     # Needs to be set along with the non-default certificate.
     ssl_support_method = var.aliases == null ? null : "sni-only"
@@ -121,9 +121,9 @@ resource aws_route53_record alias_validation_records {
   for_each = {
     for dvo in local.domain_validation_options : dvo.domain_name => {
       name = dvo.resource_record_name
-    record = dvo.resource_record_value
-    type   = dvo.resource_record_type
-  }
+      record = dvo.resource_record_value
+      type   = dvo.resource_record_type
+    }
   }
 
   allow_overwrite = true
