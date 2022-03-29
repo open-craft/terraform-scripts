@@ -23,3 +23,33 @@ variable "cache_expiration" {
   type = number
   default = 31536000
 }
+
+variable "aliases" {
+  description = "A list of aliases that will can be used instead of the CloudFront distribution's domain."
+  type = list(string)
+  default = null
+}
+
+variable "alias_zone_id" {
+  description = "ID of the Route 53 zone, in which an alias subdomain should be created. Set this if you want the subdomain to be created automatically."
+  type = string
+  default = null
+}
+
+variable "alias_name" {
+  description = "Prefix for the CDN subdomain."
+  type = string
+  default = "cdn"
+}
+
+variable "alias_certificate_arn" {
+  description = "Set this if you have an existing ACM certificate in the `us-east-1` region. Otherwise, a new certificate will be created."
+  type = string
+  default = null
+}
+
+variable "aws_provider_profile" {
+  description = "Set this if you haven't set `alias_certificate_arn`. It determines the source environment for the AWS credentials."
+  type = string
+  default = null
+}
