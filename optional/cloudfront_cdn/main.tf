@@ -6,14 +6,14 @@ provider "aws" {
 }
 
 resource "aws_cloudfront_distribution" "cloudfront_distribution" {
-  enabled             = true
-  is_ipv6_enabled     = true
-  comment             = lower(join("-", [var.client_shortname, var.environment, var.service_name]))
-  aliases             = var.aliases
+  enabled         = true
+  is_ipv6_enabled = true
+  comment         = lower(join("-", [var.client_shortname, var.environment, var.service_name]))
+  aliases         = var.aliases
 
   origin {
-    domain_name         = var.origin_domain
-    origin_id           = var.origin_domain
+    domain_name = var.origin_domain
+    origin_id   = var.origin_domain
 
     custom_origin_config {
       http_port                = 80
@@ -77,7 +77,7 @@ resource "aws_cloudfront_distribution" "cloudfront_distribution" {
                               ? null
                               : var.alias_certificate_arn != null
                                 ? var.alias_certificate_arn
-                                  : aws_acm_certificate.alias_certificate[0].arn
+                                : aws_acm_certificate.alias_certificate[0].arn
                           )
     # Needs to be set along with the non-default certificate.
     ssl_support_method = var.aliases == null ? null : "sni-only"
@@ -103,7 +103,7 @@ resource "aws_route53_record" alias {
 
 # Custom ACM certificate.
 resource "aws_acm_certificate" alias_certificate {
-  count = var.alias_zone_id != null && var.alias_certificate_arn == null ? 1 : 0
+  count    = var.alias_zone_id != null && var.alias_certificate_arn == null ? 1 : 0
   provider = aws.acm
 
   domain_name       = "${var.alias_name}.${var.origin_domain}"
@@ -120,13 +120,14 @@ locals {
 resource aws_route53_record alias_validation_records {
   for_each = {
     for dvo in local.domain_validation_options : dvo.domain_name => {
-      name = dvo.resource_record_name
+      name   = dvo.resource_record_name
       record = dvo.resource_record_value
       type   = dvo.resource_record_type
     }
   }
 
   allow_overwrite = true
+
   zone_id = var.alias_zone_id
   name    = each.value.name
   type    = each.value.type
