@@ -43,6 +43,11 @@ resource aws_elasticsearch_domain "openedx" {
     }
   }
 
+  log_publishing_options {
+    cloudwatch_log_group_arn = aws_cloudwatch_log_group.openedx.arn
+    log_type = "ES_APPLICATION_LOGS"
+  }
+
   vpc_options {
     subnet_ids = length(var.specific_subnet_ids) == 0 ? tolist(data.aws_subnet_ids.default[0].ids) : var.specific_subnet_ids
     security_group_ids = concat([aws_security_group.elasticsearch.id], var.extra_security_group_ids)
@@ -113,4 +118,28 @@ resource aws_security_group_rule "es-edxapp-outbound-rule" {
   to_port = 0
   protocol = "all"
   cidr_blocks = ["0.0.0.0/0"]
+}
+
+resource aws_cloudwatch_log_group "openedx" {
+  name = "${var.customer_name}-${var.environment}-elasticsearch-cloudwatch-log-group"
+}
+
+resource aws_cloudwatch_log_resource_policy "openedx" {
+  policy_name = "openedx-cloudwatch-log-resource-policy"
+
+  policy_document = jsonencode({
+    Version = "2012-10-17"
+    Statement = {
+      Effect = "Allow"
+      Principal = {
+        Service = "es.amazonaws.com"
+      },
+      Action = [
+        "logs:PutLogEvents",
+        "logs:PutLogEventsBatch",
+        "logs:CreateLogStream"
+      ],
+      Resource = "arn:aws:logs:*"
+    }
+  })
 }
