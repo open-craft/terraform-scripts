@@ -121,7 +121,7 @@ resource aws_security_group_rule "es-edxapp-outbound-rule" {
 }
 
 resource aws_cloudwatch_log_group "openedx" {
-  name = "openedx-cloudwatch-log-group"
+  name = "${var.customer_name}-${var.environment}-elasticsearch-cloudwatch-log-group"
 }
 
 resource aws_cloudwatch_log_resource_policy "openedx" {
