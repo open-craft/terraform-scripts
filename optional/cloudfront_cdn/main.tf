@@ -5,6 +5,50 @@ provider "aws" {
   profile = var.aws_provider_profile
 }
 
+resource "aws_cloudfront_cache_policy" "cache_policy" {
+  name        = lower(join("-", [var.client_shortname, var.environment, var.service_name, "cdn-cache-policy"]))
+  comment     = lower(join("-", [var.client_shortname, var.environment, var.service_name]))
+  min_ttl     = 5
+  default_ttl = var.cache_expiration
+  max_ttl     = var.cache_expiration
+
+  parameters_in_cache_key_and_forwarded_to_origin {
+    cookies_config {
+      cookie_behavior = "none"
+    }
+
+    headers_config {
+      header_behavior = "whitelist"
+      headers {
+        items = ["Origin", ]
+      }
+    }
+
+    query_strings_config {
+      query_string_behavior = "all"
+    }
+  }
+}
+
+resource "aws_cloudfront_origin_request_policy" "origin_request_policy" {
+  name    = lower(join("-", [var.client_shortname, var.environment, var.service_name, "cdn-origin-request-policy"]))
+  comment = lower(join("-", [var.client_shortname, var.environment, var.service_name]))
+
+  cookies_config {
+    cookie_behavior = "none"
+  }
+
+  headers_config {
+    header_behavior = "whitelist"
+    headers {
+      items = ["Origin", ]
+    }
+  }
+  query_strings_config {
+    query_string_behavior = "all"
+  }
+}
+
 resource "aws_cloudfront_distribution" "cloudfront_distribution" {
   enabled         = true
   is_ipv6_enabled = true
@@ -34,22 +78,12 @@ resource "aws_cloudfront_distribution" "cloudfront_distribution" {
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = var.origin_domain
 
-    default_ttl            = var.cache_expiration
-    max_ttl                = var.cache_expiration
-    compress               = true
-    viewer_protocol_policy = "redirect-to-https"
-
-    forwarded_values {
-      query_string = true
-
-      headers = [
-        "Origin",
-      ]
-
-      cookies {
-        forward = "none"
-      }
-    }
+    default_ttl              = var.cache_expiration
+    max_ttl                  = var.cache_expiration
+    compress                 = true
+    viewer_protocol_policy   = "redirect-to-https"
+    cache_policy_id          = aws_cloudfront_cache_policy.cache_policy.id
+    origin_request_policy_id = aws_cloudfront_origin_request_policy.origin_request_policy.id
   }
 
   restrictions {
