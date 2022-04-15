@@ -8,11 +8,13 @@ provider "aws" {
 resource "aws_cloudfront_cache_policy" "cache_policy" {
   name        = lower(join("-", [var.client_shortname, var.environment, var.service_name, "cdn-cache-policy"]))
   comment     = lower(join("-", [var.client_shortname, var.environment, var.service_name]))
-  min_ttl     = 5
+  min_ttl     = 1
   default_ttl = var.cache_expiration
   max_ttl     = var.cache_expiration
 
   parameters_in_cache_key_and_forwarded_to_origin {
+    enable_accept_encoding_gzip = true
+
     cookies_config {
       cookie_behavior = "none"
     }
@@ -78,9 +80,8 @@ resource "aws_cloudfront_distribution" "cloudfront_distribution" {
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = var.origin_domain
 
-    default_ttl              = var.cache_expiration
-    max_ttl                  = var.cache_expiration
-    compress                 = true
+    compress = true
+
     viewer_protocol_policy   = "redirect-to-https"
     cache_policy_id          = aws_cloudfront_cache_policy.cache_policy.id
     origin_request_policy_id = aws_cloudfront_origin_request_policy.origin_request_policy.id
