@@ -54,6 +54,7 @@ resource aws_db_instance mysql_rds_replicas {
   engine_version = var.engine_version
 
   storage_type = "gp2"
+  backup_retention_period = 5
 
   publicly_accessible = var.replica_publicly_accessible
   storage_encrypted = true
@@ -66,6 +67,26 @@ resource aws_db_instance mysql_rds_replicas {
   skip_final_snapshot = true
 
   max_allocated_storage = var.max_allocated_storage
+  parameter_group_name = aws_db_parameter_group.uq_daas_replica.name
+}
+
+resource "aws_db_parameter_group" "uq_daas_replica" {
+  name        = "uq-replicas-parameters"
+  description = "Extra parameters required for DaaS team to use Qlic tool with replicas"
+  family      = "mysql5.7"
+
+  parameter {
+    name         = "binlog_checksum"
+    value        = "CRC32"
+  }
+  parameter {
+    name         = "binlog_format"
+    value        = "row"
+  }
+  parameter {
+    name         = "binlog_row_image"
+    value        = "full"
+  }
 }
 
 resource aws_kms_key rds_encryption {
