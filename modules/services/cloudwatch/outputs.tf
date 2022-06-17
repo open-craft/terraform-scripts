@@ -7,5 +7,5 @@ output "high_priority_alert_arn" {
 }
 
 output "server_logs_profile_name" {
-  value = aws_iam_instance_profile.server_logs_profile.name
+  value = aws_iam_instance_profile.server-log-profile.name
 }
