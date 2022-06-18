@@ -53,7 +53,7 @@ resource "aws_sns_topic_subscription" "high_priority_email_subscription" {
 
 - `low_priority_alert_arn`: ARN of low priority alert topic to enable subscriptions
 - `high_priority_alert_arn`: ARN of high priority alert topic to enable subscriptions
-
+- `server_logs_profile_name`: Name of instance profile to allow CloudWatch events uploading.
 
 ## TODOS
 
