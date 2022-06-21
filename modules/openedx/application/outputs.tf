@@ -45,3 +45,7 @@ output "redis" {
 output "edxapp_aws_lb_listener" {
   value = aws_lb_listener.edxapp
 }
+
+output "edxapp_aws_lb_target_group_arn" {
+  value = aws_lb_target_group.edxapp.arn
+}
