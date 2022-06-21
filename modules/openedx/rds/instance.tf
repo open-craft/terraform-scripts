@@ -21,7 +21,7 @@ resource "aws_db_instance" "database" {
   storage_encrypted      = var.storage_encrypted
   kms_key_id             = aws_kms_key.rds_encryption.arn
   db_subnet_group_name   = aws_db_subnet_group.primary.name
-  vpc_security_group_ids = [aws_security_group.rds.id]
+  vpc_security_group_ids = concat([aws_security_group.rds.id], var.extra_security_group_ids)
 
   username = var.username
   password = var.password

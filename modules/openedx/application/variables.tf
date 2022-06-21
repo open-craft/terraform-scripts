@@ -242,6 +242,12 @@ variable "rds_publicly_accessible" {
   default     = false
 }
 
+variable "rds_extra_security_group_ids" {
+  description = "Additional security groups added to the DB instance, e.g. for an external service access."
+  type = list(string)
+  default = []
+}
+
 ### Redis Required Settings ###############################
 
 variable "redis_node_type" {
