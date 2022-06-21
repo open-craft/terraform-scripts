@@ -22,7 +22,7 @@ resource aws_launch_template edxapp {
   image_id                             = aws_ami_from_instance.images[local.last_instance.id].id
   ebs_optimized                        = true
   instance_initiated_shutdown_behavior = "terminate"
-  key_name                             = "appserver"
+  key_name                             = var.key_name
 
   vpc_security_group_ids = [var.security_group_id]
 
