@@ -65,3 +65,9 @@ variable "auto_scaling_desired_capacity" {
   type        = number
   default     = null
 }
+
+variable "auto_scaling_iam_instance_profile" {
+  description = "The IAM Instance Profile to launch instances with."
+  type        = string
+  default     = null
+}

@@ -39,6 +39,10 @@ resource aws_launch_template edxapp {
     resource_type = "volume"
     tags          = local.launch_template_tags
   }
+
+  iam_instance_profile {
+    name = var.auto_scaling_iam_instance_profile
+  }
 }
 
 data aws_subnet_ids subnets {
