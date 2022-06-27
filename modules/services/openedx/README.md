@@ -11,7 +11,10 @@ instance into the load balancers (that this module will create) on your own. It 
       ami = <Image ID>
       instance_type = <Instance Type>
       vpc_security_group_ids = [module.openedx.edxapp_security_group_id]
-    
+
+      # Uncomment the following line, if you want this instance to upload CloudWatch events.
+      # iam_instance_profile = module.cloudwatch.server_logs_profile_name
+
       root_block_device {
         volume_size = 50        # setting only 50 GB for the edxapp disk space
         volume_type = "gp2"
