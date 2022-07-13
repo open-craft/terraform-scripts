@@ -51,6 +51,35 @@ resource "aws_cloudfront_origin_request_policy" "origin_request_policy" {
   }
 }
 
+resource "aws_cloudfront_response_headers_policy" "response_headers_policy" {
+  name    = lower(join("-", [var.client_shortname, var.environment, var.service_name, "cdn-response-headers-policy"]))
+  comment = lower(join("-", [var.client_shortname, var.environment, var.service_name]))
+
+  cors_config {
+    access_control_allow_credentials = false
+    access_control_max_age_sec       = var.cache_expiration
+    origin_override                  = true
+
+    access_control_allow_headers {
+      items = [
+        "*",
+      ]
+    }
+
+    access_control_allow_methods {
+      items = [
+        "ALL",
+      ]
+    }
+
+    access_control_allow_origins {
+      items = [
+        "*",
+      ]
+    }
+  }
+}
+
 resource "aws_cloudfront_distribution" "cloudfront_distribution" {
   enabled         = true
   is_ipv6_enabled = true
@@ -82,9 +111,10 @@ resource "aws_cloudfront_distribution" "cloudfront_distribution" {
 
     compress = true
 
-    viewer_protocol_policy   = "redirect-to-https"
-    cache_policy_id          = aws_cloudfront_cache_policy.cache_policy.id
-    origin_request_policy_id = aws_cloudfront_origin_request_policy.origin_request_policy.id
+    viewer_protocol_policy     = "redirect-to-https"
+    cache_policy_id            = aws_cloudfront_cache_policy.cache_policy.id
+    origin_request_policy_id   = aws_cloudfront_origin_request_policy.origin_request_policy.id
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.response_headers_policy.id
   }
 
   restrictions {
