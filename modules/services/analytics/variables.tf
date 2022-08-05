@@ -48,6 +48,10 @@ variable "emr_slave_security_group_description" {
   default = "Managed by Terraform"
 }
 
+variable "elasticsearch_version" {
+  default = "1.5"
+}
+
 variable "edxapp_rds_port" {
   default = 3306
 }
