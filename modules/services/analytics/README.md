@@ -22,6 +22,7 @@ https://github.com/open-craft/openedx-deployment/blob/master/docs/analytics/AWS_
 - `provision_role_description`(optional): Description of the role used for the EC2 analytics instance
 - `emr_master_security_group_description`(optional): Description of the EMR master Security Group
 - `emr_slave_security_group_description`(optional): Description of the EMR slave Security Group
+- `elasticsearch_version`(optional): Analytics elastic search version, default to `1.5`
 - `edxapp_rds_port`: Port to be opened on the RDS security group, defaults to `3306`
 - `director_security_group_id`: The director security group ID used also for setting up the edX instance
 - `edxapp_s3_grade_bucket_id`: bucket ID of the `grades` bucket used for the edX instance

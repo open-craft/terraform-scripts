@@ -25,6 +25,7 @@ module "elasticsearch" {
   customer_name = var.customer_name
   edxapp_security_group_id = aws_security_group.analytics.id
   environment = var.environment
+  elasticsearch_version = var.elasticsearch_version
 
   number_of_nodes = 1
   instance_count = 1
