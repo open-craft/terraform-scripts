@@ -1,6 +1,6 @@
 resource "aws_db_subnet_group" "primary" {
   name       = local.db_subnet_group_name
-  subnet_ids = data.aws_subnet_ids.subnets.ids
+  subnet_ids = data.aws_subnets.subnets.ids
 }
 
 resource "aws_kms_key" "rds_encryption" {

@@ -19,13 +19,11 @@ locals {
   vpc_id = var.aws_vpc_id != "" ? var.aws_vpc_id : data.aws_vpc.default.id
 }
 
-data aws_subnet_ids "default" {
-  vpc_id = local.vpc_id
-}
-
-data aws_subnet "default" {
-  for_each = data.aws_subnet_ids.default.ids
-  id       = each.value
+data "aws_subnets" "default" {
+  filter {
+    name   = "vpc-id"
+    values = [local.vpc_id]
+  }
 }
 
 data aws_acm_certificate "customer_subdomains_certificate_arn" {
@@ -38,7 +36,7 @@ data aws_acm_certificate "customer_subdomains_certificate_arn" {
 resource "aws_lb" "analytics_lb" {
   name = "${var.customer_name}-${var.environment}-lb"
   load_balancer_type = "application"
-  subnets = data.aws_subnet_ids.default.ids
+  subnets = data.aws_subnets.default.ids
   security_groups = [aws_security_group.analytics.id]
 }
 
@@ -172,7 +170,7 @@ locals {
   instance_legacy_name = "analytics-${var.instance_iteration}"
   instance_extended_name = join("-", [var.customer_name, var.environment, var.instance_iteration])
   instance_name = var.extended_instance_name ? local.instance_extended_name : local.instance_legacy_name
-  subnet_id = var.aws_vpc_id != "" ? tolist(data.aws_subnet_ids.default.ids)[0] : null
+  subnet_id = var.aws_vpc_id != "" ? tolist(data.aws_subnets.default.ids)[0] : null
 }
 
 ######################################################

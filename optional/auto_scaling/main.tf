@@ -45,8 +45,11 @@ resource aws_launch_template edxapp {
   }
 }
 
-data aws_subnet_ids subnets {
-  vpc_id = var.aws_vpc_id
+data aws_subnets subnets {
+  filter {
+    name   = "vpc-id"
+    values = [var.aws_vpc_id]
+  }
 }
 
 resource aws_autoscaling_group edxapp {
@@ -54,7 +57,7 @@ resource aws_autoscaling_group edxapp {
 
   target_group_arns    = [var.lb_target_group_arn]
   termination_policies = ["OldestLaunchTemplate"]
-  vpc_zone_identifier  = data.aws_subnet_ids.subnets.ids
+  vpc_zone_identifier  = data.aws_subnets.subnets.ids
 
   desired_capacity = var.auto_scaling_desired_capacity
   min_size         = var.auto_scaling_min_instances

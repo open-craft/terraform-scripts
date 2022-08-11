@@ -6,8 +6,11 @@ data "aws_vpc" "default" {
   default = true
 }
 
-data "aws_subnet_ids" "default" {
-  vpc_id = local.vpc_id
+data "aws_subnets" "default" {
+  filter {
+    name   = "vpc-id"
+    values = [local.vpc_id]
+  }
   count = length(var.specific_subnet_ids) > 0 ? 0 : 1
 }
 
@@ -49,7 +52,7 @@ resource aws_elasticsearch_domain "openedx" {
   }
 
   vpc_options {
-    subnet_ids = length(var.specific_subnet_ids) == 0 ? tolist(data.aws_subnet_ids.default[0].ids) : var.specific_subnet_ids
+    subnet_ids = length(var.specific_subnet_ids) == 0 ? tolist(data.aws_subnets.default[0].ids) : var.specific_subnet_ids
     security_group_ids = concat([aws_security_group.elasticsearch.id], var.extra_security_group_ids)
   }
 
