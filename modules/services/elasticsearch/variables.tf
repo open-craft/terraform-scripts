@@ -37,3 +37,5 @@ variable "specific_subnet_ids" {
   default = []
 }
 variable "specific_vpc_id" { default = "" }
+
+variable "specific_domain_name" { default = "" }

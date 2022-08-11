@@ -22,7 +22,7 @@ locals {
   # We want to use the long name by default to avoid breaking backward compatibility.
   es_long_domain_name = "${var.customer_name}-${var.environment}-elasticsearch"
   es_short_domain_name = "${var.customer_name}-${var.environment}-es"
-  es_domain_name = length(local.es_long_domain_name) <= 28 ? local.es_long_domain_name : local.es_short_domain_name
+  es_domain_name = var.specific_domain_name != "" ? var.specific_domain_name : length(local.es_long_domain_name) <= 28 ? local.es_long_domain_name : local.es_short_domain_name
 }
 
 resource aws_elasticsearch_domain "openedx" {
@@ -72,7 +72,7 @@ resource aws_elasticsearch_domain "openedx" {
         "AWS": "*"
       },
       "Action": "es:*",
-      "Resource": "arn:aws:es:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:domain/${var.customer_name}-${var.environment}-elasticsearch/*"
+      "Resource": "arn:aws:es:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:domain/${local.es_domain_name}/*"
     }
   ]
 }
