@@ -38,6 +38,10 @@ output "rds" {
   value = module.rds
 }
 
+output "mongodb" {
+  value = module.mongodb
+}
+
 output "redis" {
   value = aws_elasticache_cluster.redis
 }
