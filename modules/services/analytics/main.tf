@@ -172,6 +172,7 @@ locals {
   instance_legacy_name = "analytics-${var.instance_iteration}"
   instance_extended_name = join("-", [var.customer_name, var.environment, var.instance_iteration])
   instance_name = var.extended_instance_name ? local.instance_extended_name : local.instance_legacy_name
+  subnet_id = var.aws_vpc_id != "" ? tolist(data.aws_subnet_ids.default.ids)[0] : null
 }
 
 ######################################################
@@ -180,7 +181,7 @@ resource "aws_instance" "analytics" {
   ami = var.analytics_image_id
   instance_type = var.analytics_instance_type
   vpc_security_group_ids = [aws_security_group.analytics.id]
-  subnet_id = tolist(data.aws_subnet_ids.default.ids)[0]
+  subnet_id = local.subnet_id
 
   iam_instance_profile = aws_iam_instance_profile.provision-role-instance-profile.name
 
@@ -193,5 +194,9 @@ resource "aws_instance" "analytics" {
 
   tags = {
     Name = local.instance_name
+  }
+
+  lifecycle {
+    ignore_changes = [subnet_id]
   }
 }
