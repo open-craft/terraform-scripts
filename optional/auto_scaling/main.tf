@@ -40,8 +40,13 @@ resource aws_launch_template edxapp {
     tags          = local.launch_template_tags
   }
 
-  iam_instance_profile {
-    name = var.auto_scaling_iam_instance_profile
+  dynamic "iam_instance_profile" {
+    # Do not define an `iam_instance_profile` block without a custom IAM profile.
+    # Otherwise, launch templates will always be treated as outdated.
+    for_each = var.auto_scaling_iam_instance_profile[*]
+    content {
+      name = var.auto_scaling_iam_instance_profile
+    }
   }
 }
 

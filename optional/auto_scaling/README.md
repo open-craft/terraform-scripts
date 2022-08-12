@@ -32,6 +32,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_auto_scaling_desired_capacity"></a> [auto\_scaling\_desired\_capacity](#input\_auto\_scaling\_desired\_capacity) | Set this if you want to immediately override a number of existing instances. | `number` | `null` | no |
+| <a name="input_auto_scaling_iam_instance_profile"></a> [auto\_scaling\_iam\_instance\_profile](#input\_auto\_scaling\_iam\_instance\_profile) | The IAM Instance Profile to launch instances with. | `string` | `null` | no |
 | <a name="input_auto_scaling_instance_type"></a> [auto\_scaling\_instance\_type](#input\_auto\_scaling\_instance\_type) | The type of the EC2 instance. | `string` | `"t3.xlarge"` | no |
 | <a name="input_auto_scaling_max_instances"></a> [auto\_scaling\_max\_instances](#input\_auto\_scaling\_max\_instances) | The maximum size of the Auto Scaling Group. | `number` | `4` | no |
 | <a name="input_auto_scaling_min_instances"></a> [auto\_scaling\_min\_instances](#input\_auto\_scaling\_min\_instances) | The minimum size of the Auto Scaling Group. | `number` | `2` | no |
