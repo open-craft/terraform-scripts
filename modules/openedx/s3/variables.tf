@@ -34,22 +34,3 @@ variable "enable_course_discovery" {
   type        = bool
   default     = false
 }
-
-### DEPRECATED ############################################
-#   DO NOT USE THESE VARIABLES WITH NEW INFRASTRUCTURE
-
-/*
-This is specifically in order for KKUx to have access to required
-S3 functionality which is not supported in their primary region
-@Giovanni Cimolin - please confirm this
-*/
-variable "deprecated_alternate_s3_bucket_region" {
-  description = "DEPRECATED - Host S3 buckets in the same region as the rest of your infrastructure. Overwrites the aws_region, ONLY for S3 buckets"
-  type        = string
-  default     = null
-}
-
-locals {
-  // Compute Region to store S3 data in
-  aws_s3_bucket_region = coalesce(var.deprecated_alternate_s3_bucket_region, var.aws_region)
-}

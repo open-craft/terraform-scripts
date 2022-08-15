@@ -8,7 +8,4 @@ module "s3" {
   client_shortname = var.client_shortname
   environment      = var.environment
   enable_course_discovery = var.enable_course_discovery
-
-  // Deprecated - do not use these anymore
-  deprecated_alternate_s3_bucket_region = var.deprecated_alternate_s3_bucket_region
 }
