@@ -39,3 +39,16 @@ variable "specific_subnet_ids" {
 variable "specific_vpc_id" { default = "" }
 
 variable "specific_domain_name" { default = "" }
+
+variable "ebs_volume_type" {
+  description = "Type of EBS volumes attached to data nodes."
+  default = "gp2"
+}
+variable "ebs_volume_size" {
+  description = "Size of EBS volumes attached to data nodes (in GiB)."
+  default = 10
+}
+variable "ebs_iops" {
+  description = "Baseline input/output (I/O) performance of EBS volumes attached to data nodes. Applicable only if `ebs_volume_type` is set to \"gp3\"."
+  default = 3000
+}

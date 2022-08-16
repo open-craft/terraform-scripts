@@ -58,8 +58,9 @@ resource aws_elasticsearch_domain "openedx" {
 
   ebs_options {
     ebs_enabled = true
-    volume_type = "gp2"
-    volume_size = 10
+    volume_type = var.ebs_volume_type
+    volume_size = var.ebs_volume_size
+    iops  = var.ebs_volume_type == "gp3" ?  var.ebs_iops : null
   }
 
   access_policies = <<POLICY
