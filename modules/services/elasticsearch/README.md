@@ -18,6 +18,11 @@ group for the OpenedX instance.
 - `extra_security_group_ids`: List of Security Group IDs to add to the ES instance
 - `instance_count`: Number of instances in the ES cluster. Defaults to `2`
 - `specific_subnet_ids`: List of VPC subnet IDs to used when using multiple Availability Zones. If not specified, uses all available zones
+- `specific_vpc_id`: An optional VPC ID. If not specified, the default one is used.
+- `specific_domain_name`: An optional domain name.
+- `ebs_volume_type`: Type of EBS volumes attached to data nodes. Defaults to "gp2".
+- `ebs_volume_size`: Size of EBS volumes attached to data nodes (in GiB). Defaults to 10.
+- `ebs_iops`: Baseline input/output (I/O) performance of EBS volumes attached to data nodes. Applicable only if `ebs_volume_type` is set to "gp3". Defaults to 3000.
 
 ## Output
 

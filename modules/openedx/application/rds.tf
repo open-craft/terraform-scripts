@@ -32,6 +32,8 @@ module "rds" {
     ]
   }
 
+  extra_security_group_ids = var.rds_extra_security_group_ids
+
   // Deprecated - do not use these anymore
   deprecated_db_subnet_group_name       = var.deprecated_db_subnet_group_name
   deprecated_db_instance_name           = var.deprecated_db_instance_name

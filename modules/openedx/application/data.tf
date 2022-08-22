@@ -1,5 +1,9 @@
-data "aws_subnet_ids" "subnets" {
-  vpc_id = var.aws_vpc_id
+// Get all subnets in the VPC
+data "aws_subnets" "subnets" {
+  filter {
+    name   = "vpc-id"
+    values = [var.aws_vpc_id]
+  }
 }
 
 data "aws_acm_certificate" "certificate" {

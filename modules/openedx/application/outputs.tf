@@ -38,10 +38,18 @@ output "rds" {
   value = module.rds
 }
 
+output "mongodb" {
+  value = module.mongodb
+}
+
 output "redis" {
   value = aws_elasticache_cluster.redis
 }
 
 output "edxapp_aws_lb_listener" {
   value = aws_lb_listener.edxapp
+}
+
+output "edxapp_aws_lb_target_group_arn" {
+  value = aws_lb_target_group.edxapp.arn
 }

@@ -22,7 +22,7 @@ resource aws_launch_template edxapp {
   image_id                             = aws_ami_from_instance.images[local.last_instance.id].id
   ebs_optimized                        = true
   instance_initiated_shutdown_behavior = "terminate"
-  key_name                             = "appserver"
+  key_name                             = var.key_name
 
   vpc_security_group_ids = [var.security_group_id]
 
@@ -40,13 +40,21 @@ resource aws_launch_template edxapp {
     tags          = local.launch_template_tags
   }
 
-  iam_instance_profile {
-    name = var.auto_scaling_iam_instance_profile
+  dynamic "iam_instance_profile" {
+    # Do not define an `iam_instance_profile` block without a custom IAM profile.
+    # Otherwise, launch templates will always be treated as outdated.
+    for_each = var.auto_scaling_iam_instance_profile[*]
+    content {
+      name = var.auto_scaling_iam_instance_profile
+    }
   }
 }
 
-data aws_subnet_ids subnets {
-  vpc_id = var.aws_vpc_id
+data aws_subnets subnets {
+  filter {
+    name   = "vpc-id"
+    values = [var.aws_vpc_id]
+  }
 }
 
 resource aws_autoscaling_group edxapp {
@@ -54,7 +62,7 @@ resource aws_autoscaling_group edxapp {
 
   target_group_arns    = [var.lb_target_group_arn]
   termination_policies = ["OldestLaunchTemplate"]
-  vpc_zone_identifier  = data.aws_subnet_ids.subnets.ids
+  vpc_zone_identifier  = data.aws_subnets.subnets.ids
 
   desired_capacity = var.auto_scaling_desired_capacity
   min_size         = var.auto_scaling_min_instances

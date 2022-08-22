@@ -6,8 +6,11 @@ data "aws_vpc" "default" {
   default = true
 }
 
-data "aws_subnet_ids" "default" {
-  vpc_id = local.vpc_id
+data "aws_subnets" "default" {
+  filter {
+    name   = "vpc-id"
+    values = [local.vpc_id]
+  }
   count = length(var.specific_subnet_ids) > 0 ? 0 : 1
 }
 
@@ -19,7 +22,7 @@ locals {
   # We want to use the long name by default to avoid breaking backward compatibility.
   es_long_domain_name = "${var.customer_name}-${var.environment}-elasticsearch"
   es_short_domain_name = "${var.customer_name}-${var.environment}-es"
-  es_domain_name = length(local.es_long_domain_name) <= 28 ? local.es_long_domain_name : local.es_short_domain_name
+  es_domain_name = var.specific_domain_name != "" ? var.specific_domain_name : length(local.es_long_domain_name) <= 28 ? local.es_long_domain_name : local.es_short_domain_name
 }
 
 resource aws_elasticsearch_domain "openedx" {
@@ -49,14 +52,15 @@ resource aws_elasticsearch_domain "openedx" {
   }
 
   vpc_options {
-    subnet_ids = length(var.specific_subnet_ids) == 0 ? tolist(data.aws_subnet_ids.default[0].ids) : var.specific_subnet_ids
+    subnet_ids = length(var.specific_subnet_ids) == 0 ? tolist(data.aws_subnets.default[0].ids) : var.specific_subnet_ids
     security_group_ids = concat([aws_security_group.elasticsearch.id], var.extra_security_group_ids)
   }
 
   ebs_options {
     ebs_enabled = true
-    volume_type = "gp2"
-    volume_size = 10
+    volume_type = var.ebs_volume_type
+    volume_size = var.ebs_volume_size
+    iops  = var.ebs_volume_type == "gp3" ?  var.ebs_iops : null
   }
 
   access_policies = <<POLICY
@@ -69,7 +73,7 @@ resource aws_elasticsearch_domain "openedx" {
         "AWS": "*"
       },
       "Action": "es:*",
-      "Resource": "arn:aws:es:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:domain/${var.customer_name}-${var.environment}-elasticsearch/*"
+      "Resource": "arn:aws:es:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:domain/${local.es_domain_name}/*"
     }
   ]
 }

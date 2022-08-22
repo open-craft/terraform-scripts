@@ -12,24 +12,17 @@ resource aws_instance director {
   key_name = var.director_key_pair_name
 
   tags = {
-    Name = "edx-${var.environment}-director"
-  }
-
-  connection {
-    type = "ssh"
-    host = self.public_ip
-    user = "ubuntu"
-    private_key = file("director.pem")
-  }
-
-  provisioner "remote-exec" {
-    inline = ["echo \"Hello, World from $(uname -smp)\""]
+    Name = var.custom_instance_name == "" ? "edx-${var.environment}-director" : var.custom_instance_name
   }
 }
 
 resource aws_security_group director {
   vpc_id = var.specific_vpc_id
   name = var.custom_security_group_name == "" ? "edx-${var.environment}-director" : var.custom_security_group_name
+
+  lifecycle {
+    ignore_changes = [description]
+  }
 }
 
 resource aws_security_group_rule director-outbound {

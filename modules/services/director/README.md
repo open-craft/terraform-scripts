@@ -14,9 +14,6 @@ public and private keys. They will be used for SSH access into the director inst
 
 *Note*: You should actually create two (one for the director and one for the edX instances)
 
-- Name the private key file as `director.pem` and place in the same folder as the terraform project
-that is using this module
-
 ## Input
 
 You should get the following variables from AWS Console, with what's available

@@ -117,6 +117,12 @@ variable "security_group_ingress_access" {
   })
 }
 
+variable "extra_security_group_ids" {
+  description = "Additional security groups, e.g. for an external service access."
+  type = list(string)
+  default = []
+}
+
 ### DEPRECATED ############################################
 #   DO NOT USE THESE VARIABLES WITH NEW INFRASTRUCTURE
 
