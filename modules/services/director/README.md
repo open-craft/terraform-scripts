@@ -22,6 +22,9 @@ for the region you are going to use:
 - `image_id`: AWS Image ID for this instance (e.g. ami-0edab4XXXXXXXXX)
 - `instance_type`: Instance type, we recommend to use the smallest one (e.g. `t2.micro`)
 - `director_key_pair_name`: Name you given to the AWS Key Pair to be used to ssh into the director
+- `ebs_volume_type`: Type of EBS volumes attached to the instance. Defaults to "gp2".
+- `ebs_volume_size`: Size of EBS volumes attached to the instance (in GiB). Defaults to 8.
+- `ebs_iops`: Baseline input/output (I/O) performance of EBS volumes attached to the instance. Applicable only if `ebs_volume_type` is set to "gp3". Defaults to 3000.
 
 ## Output
 
