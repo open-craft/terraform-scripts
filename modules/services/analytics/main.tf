@@ -186,8 +186,12 @@ resource "aws_instance" "analytics" {
   key_name = var.analytics_key_pair_name
 
   root_block_device {
-    volume_size = 50
-    volume_type = "gp2"
+    volume_type = var.instance_ebs_volume_type
+    volume_size = var.instance_ebs_volume_size
+    iops        = var.instance_ebs_volume_type == "gp3" ? var.instance_ebs_iops : null
+    tags = {
+      Name = local.instance_name
+    }
   }
 
   tags = {
@@ -195,6 +199,6 @@ resource "aws_instance" "analytics" {
   }
 
   lifecycle {
-    ignore_changes = [subnet_id]
+    ignore_changes = [subnet_id, tags, ami, root_block_device]
   }
 }

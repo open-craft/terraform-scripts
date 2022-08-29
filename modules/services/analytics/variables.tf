@@ -10,6 +10,34 @@ variable "number_of_instances" {
 variable "instance_iteration" {
   default = 1
 }
+variable "instance_ebs_volume_type" {
+  description = "Type of EBS volumes attached to the EC2 instance."
+  default     = "gp2"
+}
+variable "instance_ebs_volume_size" {
+  description = "Size of EBS volumes attached to the EC2 instance (in GiB)."
+  default     = 50
+}
+variable "instance_ebs_iops" {
+  description = "Baseline input/output (I/O) performance of EBS volumes attached to the EC2 instance. Applicable only if `instance_ebs_volume_type` is set to \"gp3\"."
+  default     = 3000
+}
+variable "elasticsearch_instance_type" {
+  default     = "t2.small.elasticsearch"
+  description = "Instance type of ElasticSearch data nodes."
+}
+variable "elasticsearch_ebs_volume_type" {
+  description = "Type of EBS volumes attached to data nodes."
+  default     = "gp2"
+}
+variable "elasticsearch_ebs_volume_size" {
+  description = "Size of EBS volumes attached to data nodes (in GiB)."
+  default     = 10
+}
+variable "elasticsearch_ebs_iops" {
+  description = "Baseline input/output (I/O) performance of EBS volumes attached to data nodes. Applicable only if `elasticsearch_ebs_volume_type` is set to \"gp3\"."
+  default     = 3000
+}
 variable "lb_instance_indexes" {
   default = [0]
 }
