@@ -27,11 +27,17 @@ module "elasticsearch" {
   environment = var.environment
   elasticsearch_version = var.elasticsearch_version
 
+  elasticsearch_instance_type = var.elasticsearch_instance_type
+
   number_of_nodes = 1
   instance_count = 1
   dedicated_master_enabled = false
   zone_awareness_enabled = false
   create_iam_service_linked_role = false
+
+  ebs_volume_type = var.elasticsearch_ebs_volume_type
+  ebs_volume_size = var.elasticsearch_ebs_volume_size
+  ebs_iops        = var.elasticsearch_ebs_iops
 
   specific_vpc_id = var.aws_vpc_id
   # TODO: verify this doesn't affect accessibility if we actually use multiple analytics instances

@@ -18,6 +18,13 @@ https://github.com/open-craft/openedx-deployment/blob/master/docs/analytics/AWS_
 - `hosted_zone_domain`: Hosted Zone domain to create the insights subdomain in. This is normally 
   same as the LMS domain
 - `instance_iteration`: Iteration number of the analytics EC2 instance, starts at 1
+- `instance_ebs_volume_type`: Type of EBS volumes attached to the EC2 instance. Defaults to "gp2".
+- `instance_ebs_volume_size`: Size of EBS volumes attached to the EC2 instance (in GiB). Defaults to 50.
+- `instance_ebs_iops`: Baseline input/output (I/O) performance of EBS volumes attached to the EC2 instance. Applicable only if `instance_ebs_volume_type` is set to "gp3". Defaults to 3000.
+- `elasticsearch_instance_type`: Instance type of ElasticSearch data nodes. Defaults to "t2.small.elasticsearch".
+- `elasticsearch_ebs_volume_type`: Type of EBS volumes attached to data nodes. Defaults to "gp2".
+- `elasticsearch_ebs_volume_size`: Size of EBS volumes attached to data nodes (in GiB). Defaults to 10.
+- `elasticsearch_ebs_iops`: Baseline input/output (I/O) performance of EBS volumes attached to data nodes. Applicable only if `ebs_volume_type` is set to "gp3". Defaults to 3000.
 - `analytics_identifier`: Just an identifier for several resource names, defaults to `analytics_identifier`
 - `provision_role_description`(optional): Description of the role used for the EC2 analytics instance
 - `emr_master_security_group_description`(optional): Description of the EMR master Security Group

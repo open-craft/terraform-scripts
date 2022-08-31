@@ -11,6 +11,15 @@ resource aws_instance director {
 
   key_name = var.director_key_pair_name
 
+  root_block_device {
+    volume_type = var.ebs_volume_type
+    volume_size = var.ebs_volume_size
+    iops        = var.ebs_volume_type == "gp3" ? var.ebs_iops : null
+    tags = {
+      Name = var.custom_instance_name == "" ? "edx-${var.environment}-director" : var.custom_instance_name
+    }
+  }
+
   tags = {
     Name = var.custom_instance_name == "" ? "edx-${var.environment}-director" : var.custom_instance_name
   }
