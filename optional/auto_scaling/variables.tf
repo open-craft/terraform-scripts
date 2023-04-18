@@ -72,6 +72,12 @@ variable "auto_scaling_iam_instance_profile" {
   default     = null
 }
 
+variable "auto_scaling_enabled_metrics" {
+  description = "List of metrics to collect."
+  type        = list(string)
+  default     = null
+}
+
 variable "key_name" {
   description = "You can use a key pair to securely connect to your instance."
   type        = string

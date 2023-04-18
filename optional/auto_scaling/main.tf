@@ -70,6 +70,8 @@ resource aws_autoscaling_group edxapp {
 
   health_check_grace_period = 100
 
+  enabled_metrics = var.auto_scaling_enabled_metrics
+
   instance_refresh {
     strategy = "Rolling"
   }
