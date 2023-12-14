@@ -53,3 +53,12 @@ variable "aws_provider_profile" {
   type = string
   default = null
 }
+
+variable "custom_header" {
+  description = "The custom header added to responses. Useful when a load balancer rule is gated with a secret header."
+  type = object({
+    name  = string
+    value = string
+  })
+  default = null
+}
