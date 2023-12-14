@@ -102,6 +102,14 @@ resource "aws_cloudfront_distribution" "cloudfront_distribution" {
         "TLSv1.2",
       ]
     }
+
+    dynamic "custom_header" {
+      for_each = var.custom_header[*]
+      content {
+        name  = var.custom_header.name
+        value = var.custom_header.value
+      }
+    }
   }
 
   default_cache_behavior {
