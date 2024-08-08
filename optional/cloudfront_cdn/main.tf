@@ -96,11 +96,7 @@ resource "aws_cloudfront_distribution" "cloudfront_distribution" {
       origin_keepalive_timeout = 5
       origin_protocol_policy   = "match-viewer"
       origin_read_timeout      = 30
-      origin_ssl_protocols     = [
-        "TLSv1",
-        "TLSv1.1",
-        "TLSv1.2",
-      ]
+      origin_ssl_protocols     = ["TLSv1.2"]
     }
 
     dynamic "custom_header" {
@@ -154,6 +150,9 @@ resource "aws_cloudfront_distribution" "cloudfront_distribution" {
                           )
     # Needs to be set along with the non-default certificate.
     ssl_support_method = var.aliases == null ? null : "sni-only"
+
+    # The default certificate requires TLSv1.
+    minimum_protocol_version = var.aliases == null ? "TLSv1" : "TLSv1.2_2021"
   }
 }
 
